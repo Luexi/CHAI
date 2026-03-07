@@ -1,0 +1,101 @@
+---
+import { Phone, MapPin, Clock, MessageCircle } from "lucide-react";
+import { institucion, contacto, logos } from "@/data/site";
+---
+
+<footer class="bg-primary text-primary-foreground">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <!-- Logos e institución -->
+      <div class="lg:col-span-1">
+        <div class="inline-flex items-center gap-3 bg-white/90 rounded-xl px-4 py-2 mb-4">
+          <img
+            src={logos.uagro}
+            alt="UAGro"
+            loading="lazy"
+            class="h-10 w-auto"
+          />
+          <img
+            src={logos.prepa}
+            alt={institucion.nombreCorto}
+            loading="lazy"
+            class="h-10 w-auto"
+          />
+        </div>
+        <p class="text-primary-foreground/80 text-sm leading-relaxed">
+          {institucion.nombre}. {institucion.universidad}.
+        </p>
+      </div>
+
+      <!-- Enlaces rápidos -->
+      <div>
+        <h4 class="font-display text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+        <ul class="space-y-2">
+          <li>
+            <a href="/" class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="/nucleo-academico" class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
+              Núcleo Académico
+            </a>
+          </li>
+          <li>
+            <a href="/repositorio-tesis" class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
+              Repositorio de Tesis
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contacto -->
+      <div>
+        <h4 class="font-display text-lg font-semibold mb-4">Contacto</h4>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-2">
+            <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
+            <span class="text-sm text-primary-foreground/80">
+              {contacto.direccion}
+            </span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Phone className="h-5 w-5 flex-shrink-0" />
+            <a href={`tel:${contacto.telefono}`} class="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              {contacto.telefono}
+            </a>
+          </li>
+          <li class="flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 flex-shrink-0" />
+            <a href={contacto.whatsappUrl} target="_blank" rel="noopener noreferrer" class="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              WhatsApp: {contacto.whatsapp}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Horarios -->
+      <div>
+        <h4 class="font-display text-lg font-semibold mb-4">Horarios</h4>
+        <ul class="space-y-1.5">
+          {contacto.horarios.map((h) => (
+            <li class="flex items-center gap-2 text-sm text-primary-foreground/80">
+              <Clock className="h-4 w-4 flex-shrink-0 opacity-60" />
+              <span class="font-medium w-24">{h.dia}</span>
+              <span>{h.horario}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-primary-foreground/20">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-primary-foreground/60">
+          &copy; {new Date().getFullYear()} {institucion.universidad}. Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

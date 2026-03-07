@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { DocenteCard } from "@/components/cards/DocenteCard";
+import { docentes } from "@/data/docentes";
+import { institucion } from "@/data/site";
+
+// Ordenar alfabéticamente por nombre.
+// Con placeholders ("Docente 01", etc.) el orden es numérico;
+// una vez cargados los nombres reales será alfabético real.
+const docentesOrdenados = [...docentes].sort((a, b) =>
+  a.nombre.localeCompare(b.nombre, "es")
+);
+---
+
+<BaseLayout
+  title={`${institucion.nombreCorto} | Núcleo Académico`}
+  description="Conoce al cuerpo docente de la Preparatoria Popular General Emiliano Zapata."
+>
+  <PageHeader
+    title="Núcleo Académico"
+    subtitle="Conoce a los docentes que conforman nuestra preparatoria"
+    badge="Cuerpo Docente"
+  />
+
+  <!-- TODO: Reemplazar los 11 docentes placeholder con datos reales.
+       Editar en: src/data/docentes.ts -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {docentesOrdenados.map((docente) => <DocenteCard docente={docente} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

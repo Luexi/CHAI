@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   Preparatoria Popular Gral. Emiliano Zapata
+   Design System – Paleta: rojo, azul, negro
+   ============================================ */
+
+@layer base {
+  :root {
+    /* Institutional Colors (HSL) */
+    --prepa-blue: 216 79% 20%;          /* Azul institucional oscuro */
+    --prepa-red: 0 73% 41%;             /* Rojo institucional */
+    --prepa-black: 0 0% 10%;            /* Negro profundo */
+
+    /* Background & Surface */
+    --background: 228 33% 97%;          /* Fondo claro */
+    --foreground: 222 47% 11%;          /* Texto principal */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary = Azul institucional */
+    --primary: 216 79% 20%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: 228 33% 97%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Muted */
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent = Rojo institucional */
+    --accent: 0 73% 41%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive = Rojo */
+    --destructive: 0 73% 41%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 216 79% 20%;
+
+    --radius: 1rem;
+
+    /* Spotlight Gradients */
+    --gradient-spotlight: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(216 79% 20% / 0.12), transparent);
+    --gradient-hero: linear-gradient(135deg, hsl(228 33% 97%) 0%, hsl(220 30% 95%) 50%, hsl(228 33% 97%) 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .bg-spotlight {
+    background: var(--gradient-spotlight);
+  }
+
+  .bg-hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-red-700;
+  }
+
+  .card-shadow {
+    box-shadow: 0 4px 6px -1px hsl(216 79% 20% / 0.05),
+                0 2px 4px -2px hsl(216 79% 20% / 0.05);
+  }
+
+  .card-shadow-hover {
+    box-shadow: 0 10px 15px -3px hsl(216 79% 20% / 0.08),
+                0 4px 6px -4px hsl(216 79% 20% / 0.05);
+  }
+}

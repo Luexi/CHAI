@@ -1,0 +1,130 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { institucion, heroInicio, bienvenida, logos } from "@/data/site";
+---
+
+<BaseLayout
+  title={`${institucion.nombreCorto} | Inicio`}
+  description={`${institucion.nombre} – ${institucion.universidad}. Presentaciones de proyectos de tesis 2026.`}
+>
+  <!-- ===== HERO ===== -->
+  <section
+    class="relative min-h-[85vh] flex items-center justify-center overflow-hidden"
+  >
+    <!-- Foto de fondo -->
+    <img
+      src="/assets/fondohero.jpeg"
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <!-- Overlay oscuro para legibilidad del texto -->
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <div class="relative max-w-6xl mx-auto px-4 py-20 text-center">
+      <h1
+        class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in"
+      >
+        {heroInicio.titulo}
+      </h1>
+
+      <p
+        class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in"
+      >
+        {heroInicio.subtitulo}
+      </p>
+
+      <!-- Logos institucionales -->
+      <div
+        class="mt-12 flex flex-col items-center gap-8 animate-fade-in"
+      >
+        <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg">
+          <img
+            src={logos.uagro}
+            alt="Universidad Autónoma de Guerrero"
+            class="h-16 md:h-20 w-auto"
+          />
+          <img
+            src={logos.prepa}
+            alt={institucion.nombreCorto}
+            class="h-16 md:h-20 w-auto"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LEMA INSTITUCIONAL ===== -->
+  <section class="py-10 bg-primary">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <blockquote class="text-primary-foreground/90 italic text-2xl md:text-3xl lg:text-4xl font-display leading-snug">
+        &ldquo;{institucion.lema}&rdquo;
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ===== BIENVENIDA / PROPÓSITO (PLACEHOLDER) ===== -->
+  <!-- TODO: Reemplazar el texto de bienvenida con el contenido definitivo.
+       Editar en: src/data/site.ts → objeto "bienvenida" -->
+  <section class="py-20 bg-card">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-8">
+        <span class="inline-block px-4 py-1.5 bg-blue-700/10 text-blue-700 text-sm font-medium rounded-full mb-4">
+          Acerca del Proyecto
+        </span>
+        <h2
+          class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4"
+        >
+          {bienvenida.titulo}
+        </h2>
+      </div>
+      <p class="text-muted-foreground text-center leading-relaxed text-lg">
+        {bienvenida.texto}
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== NAVEGACIÓN RÁPIDA ===== -->
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-8">
+        <a
+          href="/nucleo-academico"
+          class="group relative overflow-hidden rounded-2xl bg-red-700 p-8 text-white hover:shadow-xl transition-all"
+        >
+          <div class="relative z-10">
+            <h3 class="font-display text-2xl font-semibold mb-3">
+              Núcleo Académico
+            </h3>
+            <p class="text-white/80 mb-4">
+              Conoce a los docentes que acompañan el proceso formativo de nuestros estudiantes.
+            </p>
+            <span class="inline-flex items-center gap-2 font-medium group-hover:gap-3 transition-all">
+              Ver docentes
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full"></div>
+        </a>
+
+        <a
+          href="/repositorio-tesis"
+          class="group relative overflow-hidden rounded-2xl bg-gray-900 p-8 text-white hover:shadow-xl transition-all"
+        >
+          <div class="relative z-10">
+            <h3 class="font-display text-2xl font-semibold mb-3">
+              Repositorio de Tesis
+            </h3>
+            <p class="text-white/80 mb-4">
+              Consulta los proyectos de tesis presentados por la generación 2026.
+            </p>
+            <span class="inline-flex items-center gap-2 font-medium group-hover:gap-3 transition-all">
+              Ver tesis
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
