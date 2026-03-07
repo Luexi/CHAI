@@ -58,11 +58,12 @@ export const contacto = {
 };
 
 /* ---- Logos ---- */
+// Las rutas NO llevan "/" inicial para poder prefijar con import.meta.env.BASE_URL
 export const logos = {
   /** Logo de la preparatoria (PNG con transparencia) */
-  prepa: "/assets/logos/logoprepanuevo.png",
+  prepa: "assets/logos/logoprepanuevo.png",
   /** Logo de la UAGro */
-  uagro: "/assets/logos/logo-uagro.webp",
+  uagro: "assets/logos/logo-uagro.webp",
 };
 
 /**

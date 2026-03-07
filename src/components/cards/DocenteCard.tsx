@@ -6,12 +6,14 @@ interface DocenteCardProps {
 }
 
 export function DocenteCard({ docente }: DocenteCardProps) {
+  const rawBase = import.meta.env.BASE_URL;
+  const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
   return (
     <div className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-border">
       <div className="relative aspect-[4/5] overflow-hidden bg-muted">
         {docente.foto ? (
           <img
-            src={docente.foto}
+            src={`${base}${docente.foto}`}
             alt={docente.nombre}
             loading="lazy"
             className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"

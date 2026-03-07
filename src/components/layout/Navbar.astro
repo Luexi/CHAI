@@ -6,26 +6,28 @@ interface Props {
 }
 
 const { currentPath } = Astro.props;
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
 const navItems = [
-  { label: "Inicio", href: "/" },
-  { label: "Núcleo Académico", href: "/nucleo-academico" },
+  { label: "Inicio", href: base },
+  { label: "Núcleo Académico", href: `${base}nucleo-academico` },
 ];
 
-const ctaItem = { label: "Repositorio de Tesis", href: "/repositorio-tesis" };
+const ctaItem = { label: "Repositorio de Tesis", href: `${base}repositorio-tesis` };
 
 function isActive(href: string) {
-  if (href === "/") return currentPath === "/";
-  return currentPath === href;
+  if (href === base) return currentPath === base || currentPath === `${base}/` || currentPath === "/";
+  return currentPath.startsWith(href);
 }
 ---
 
 <header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
   <nav class="bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border px-4 py-3">
     <div class="flex items-center justify-between">
-      <a href="/" class="flex items-center gap-3">
-        <img src={logos.uagro} alt="UAGro" class="h-10 w-auto" />
-        <img src={logos.prepa} alt="Preparatoria Popular Gral. Emiliano Zapata" class="h-10 w-auto hidden sm:block rounded" />
+      <a href={base} class="flex items-center gap-3">
+        <img src={`${base}${logos.uagro}`} alt="UAGro" class="h-10 w-auto" />
+        <img src={`${base}${logos.prepa}`} alt="Preparatoria Popular Gral. Emiliano Zapata" class="h-10 w-auto hidden sm:block rounded" />
       </a>
 
       <div class="hidden md:flex items-center gap-1">

@@ -5,7 +5,7 @@
  * Cómo editar:
  *  1. Reemplaza nombre, materia, carrera y foto de cada docente.
  *  2. Las fotos deben guardarse en  public/assets/docentes/
- *     y referenciarse como "/assets/docentes/nombre-archivo.jpg".
+ *     y referenciarse como "assets/docentes/nombre-archivo.jpg" (sin "/" inicial).
  *  3. Si no hay foto disponible, deja `foto` vacío o undefined
  *     y se mostrará un avatar genérico.
  *

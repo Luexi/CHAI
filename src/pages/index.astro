@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { institucion, heroInicio, bienvenida, logos } from "@/data/site";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
 <BaseLayout
@@ -13,7 +16,7 @@ import { institucion, heroInicio, bienvenida, logos } from "@/data/site";
   >
     <!-- Foto de fondo -->
     <img
-      src="/assets/fondohero.jpeg"
+      src={`${base}assets/fondohero.jpeg`}
       alt=""
       class="absolute inset-0 w-full h-full object-cover"
     />
@@ -39,12 +42,12 @@ import { institucion, heroInicio, bienvenida, logos } from "@/data/site";
       >
         <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg">
           <img
-            src={logos.uagro}
+            src={`${base}${logos.uagro}`}
             alt="Universidad Autónoma de Guerrero"
             class="h-16 md:h-20 w-auto"
           />
           <img
-            src={logos.prepa}
+            src={`${base}${logos.prepa}`}
             alt={institucion.nombreCorto}
             class="h-16 md:h-20 w-auto"
           />
@@ -88,7 +91,7 @@ import { institucion, heroInicio, bienvenida, logos } from "@/data/site";
     <div class="max-w-6xl mx-auto px-4">
       <div class="grid md:grid-cols-2 gap-8">
         <a
-          href="/nucleo-academico"
+          href={`${base}nucleo-academico`}
           class="group relative overflow-hidden rounded-2xl bg-red-700 p-8 text-white hover:shadow-xl transition-all"
         >
           <div class="relative z-10">
@@ -107,7 +110,7 @@ import { institucion, heroInicio, bienvenida, logos } from "@/data/site";
         </a>
 
         <a
-          href="/repositorio-tesis"
+          href={`${base}repositorio-tesis`}
           class="group relative overflow-hidden rounded-2xl bg-gray-900 p-8 text-white hover:shadow-xl transition-all"
         >
           <div class="relative z-10">

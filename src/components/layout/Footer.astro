@@ -1,6 +1,9 @@
 ---
 import { Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import { institucion, contacto, logos } from "@/data/site";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
 <footer class="bg-primary text-primary-foreground">
@@ -11,13 +14,13 @@ import { institucion, contacto, logos } from "@/data/site";
       <div class="lg:col-span-1">
         <div class="inline-flex items-center gap-3 bg-white/90 rounded-xl px-4 py-2 mb-4">
           <img
-            src={logos.uagro}
+            src={`${base}${logos.uagro}`}
             alt="UAGro"
             loading="lazy"
             class="h-10 w-auto"
           />
           <img
-            src={logos.prepa}
+            src={`${base}${logos.prepa}`}
             alt={institucion.nombreCorto}
             loading="lazy"
             class="h-10 w-auto"
@@ -33,17 +36,17 @@ import { institucion, contacto, logos } from "@/data/site";
         <h4 class="font-display text-lg font-semibold mb-4">Enlaces Rápidos</h4>
         <ul class="space-y-2">
           <li>
-            <a href="/" class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
+            <a href={base} class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
               Inicio
             </a>
           </li>
           <li>
-            <a href="/nucleo-academico" class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
+            <a href={`${base}nucleo-academico`} class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
               Núcleo Académico
             </a>
           </li>
           <li>
-            <a href="/repositorio-tesis" class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
+            <a href={`${base}repositorio-tesis`} class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
               Repositorio de Tesis
             </a>
           </li>

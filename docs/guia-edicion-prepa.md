@@ -46,7 +46,7 @@ export const bienvenida = {
 
 Para cambiar la foto de fondo del hero, reemplaza este archivo. La imagen se muestra con un overlay oscuro semitransparente (`bg-black/60`) para mantener la legibilidad del texto blanco.
 
-Si necesitas ajustar la opacidad del overlay, edita `src/pages/index.astro` línea 21:
+Si necesitas ajustar la opacidad del overlay, edita `src/pages/index.astro` línea 22:
 ```html
 <div class="absolute inset-0 bg-black/60"></div>
 <!--                              ^^^^ Cambia este valor (0-100) -->
@@ -83,10 +83,12 @@ Para cambiar, modifica las clases `bg`, `text`, etc. en `accentPages`.
 
 ```ts
 export const logos = {
-  prepa: "/assets/logos/logoprepanuevo.png",
-  uagro: "/assets/logos/logo-uagro.webp",
+  prepa: "assets/logos/logoprepanuevo.png",
+  uagro: "assets/logos/logo-uagro.webp",
 };
 ```
+
+**IMPORTANTE:** Las rutas NO llevan "/" al inicio. El prefijo `/CHAI/` se agrega automáticamente en cada componente usando `import.meta.env.BASE_URL`.
 
 **Nota sobre visibilidad:** Los logos se muestran sobre una "pastilla" blanca semitransparente tanto en el hero como en el footer, para garantizar contraste sobre fondos oscuros. Usa logos con fondo transparente (PNG) para mejores resultados.
 
@@ -104,9 +106,11 @@ Edita el array `docentes`. Cada docente tiene:
   nombre: "Nombre del Docente",
   materia: "Nombre de la materia",
   carrera: "Carrera de la que se graduó",
-  foto: "/assets/docentes/nombre-archivo.jpg", // o undefined si no hay foto
+  foto: "assets/docentes/nombre-archivo.jpg", // o undefined si no hay foto
 }
 ```
+
+**IMPORTANTE:** Las rutas de fotos NO llevan "/" al inicio (igual que los logos).
 
 **Fotos:** guárdalas en `public/assets/docentes/`.
 
@@ -170,7 +174,48 @@ npm run build && npm run preview
 
 ---
 
-## 11. Validar el build antes de desplegar
+## 11. Despliegue en GitHub Pages
+
+El sitio se despliega automáticamente a **GitHub Pages** cada vez que haces push a la rama `main`.
+
+**URL del sitio:** `https://luexi.github.io/CHAI/`
+
+### Configuración actual
+
+**Archivo:** `astro.config.mjs`
+```js
+export default defineConfig({
+  site: "https://luexi.github.io",
+  base: "/CHAI",
+  output: "static",
+  // ...
+});
+```
+
+- `site`: La URL base de GitHub Pages del usuario.
+- `base`: El nombre del repositorio (porque GitHub Pages sirve en `/<repo>/`).
+
+**Workflow:** `.github/workflows/deploy.yml`
+
+El workflow de GitHub Actions:
+1. Instala dependencias (`npm ci`)
+2. Construye el sitio (`npx astro build`)
+3. Sube los archivos estáticos a GitHub Pages
+
+### Para activar GitHub Pages (primera vez)
+
+1. Ve a tu repositorio en GitHub: `https://github.com/Luexi/CHAI`
+2. Ve a **Settings → Pages**
+3. En **Source**, selecciona **GitHub Actions**
+4. Haz push a la rama `main` y el workflow se ejecutará automáticamente
+
+### Rutas y el prefijo `/CHAI/`
+
+Todas las rutas de assets (imágenes, logos) y links internos usan `import.meta.env.BASE_URL` para agregar automáticamente el prefijo `/CHAI/`. Por eso las rutas en `site.ts` y `docentes.ts` **NO llevan "/" al inicio**.
+
+---
+
+## 12. Validar el build antes de desplegar
 
 ```bash
 # Verificar tipos TypeScript + generar sitio estático
@@ -217,4 +262,8 @@ public/
 │   │   └── logoprepanuevo.png     ← Logo Preparatoria (PNG transparente)
 │   ├── docentes/                  ← Fotos de docentes (pendiente)
 │   └── fondohero.jpeg             ← Imagen de fondo del hero
+
+.github/
+└── workflows/
+    └── deploy.yml                 ← Workflow de despliegue a GitHub Pages
 ```
