@@ -2,15 +2,18 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { DocenteCard } from "@/components/cards/DocenteCard";
-import { docentes } from "@/data/docentes";
+import { docentes, director } from "@/data/docentes";
 import { institucion } from "@/data/site";
 
-// Ordenar alfabéticamente por nombre.
-// Con placeholders ("Docente 01", etc.) el orden es numérico;
-// una vez cargados los nombres reales será alfabético real.
-const docentesOrdenados = [...docentes].sort((a, b) =>
-  a.nombre.localeCompare(b.nombre, "es")
-);
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+// Orden alfabético por nombre, pero los slots pendientes quedan al final.
+const docentesOrdenados = [...docentes].sort((a, b) => {
+  if (a.pendiente && !b.pendiente) return 1;
+  if (!a.pendiente && b.pendiente) return -1;
+  return a.nombre.localeCompare(b.nombre, "es");
+});
 ---
 
 <BaseLayout
@@ -23,9 +26,30 @@ const docentesOrdenados = [...docentes].sort((a, b) =>
     badge="Cuerpo Docente"
   />
 
-  <!-- TODO: Reemplazar los 11 docentes placeholder con datos reales.
-       Editar en: src/data/docentes.ts -->
-  <section class="py-16">
+  <!-- Director destacado -->
+  <section class="pt-16 pb-8">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <div class="inline-flex flex-col items-center">
+        <div class="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full overflow-hidden ring-4 ring-red-700/20 shadow-lg bg-muted">
+          <img
+            src={`${base}${director.foto}`}
+            alt={director.nombre}
+            loading="lazy"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <span class="mt-5 inline-block px-3 py-1 bg-red-700/10 text-red-700 text-sm font-medium rounded-full uppercase tracking-wide">
+          {director.cargo}
+        </span>
+        <h2 class="mt-3 font-display text-2xl sm:text-3xl font-bold text-foreground">
+          {director.nombre}
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cuerpo docente -->
+  <section class="py-10">
     <div class="max-w-7xl mx-auto px-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {docentesOrdenados.map((docente) => <DocenteCard docente={docente} />)}

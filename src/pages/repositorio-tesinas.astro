@@ -1,0 +1,26 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { TesinaCard } from "@/components/cards/TesinaCard";
+import { tesinas } from "@/data/tesinas";
+import { institucion } from "@/data/site";
+---
+
+<BaseLayout
+  title={`${institucion.nombreCorto} | Repositorio de Tesinas`}
+  description="Consulta las tesinas de la generación 2026 de la Preparatoria Popular General Emiliano Zapata."
+>
+  <PageHeader
+    title="Repositorio de Tesinas"
+    subtitle="Tesinas presentadas por la generación 2026"
+    badge="Trabajos de la Generación"
+  />
+
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid gap-8">
+        {tesinas.map((item) => <TesinaCard tesina={item} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

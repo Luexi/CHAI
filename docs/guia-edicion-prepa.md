@@ -10,7 +10,7 @@ Guía rápida para editar el contenido del sitio web sin necesidad de conocimien
 
 ```ts
 export const heroInicio = {
-  titulo: "Presentaciones de proyectos Tesis 2026",
+  titulo: "Presentaciones de proyectos Tesinas 2026",
   subtitulo: "Preparatoria Popular General Emiliano Zapata",
 };
 ```
@@ -60,11 +60,11 @@ Si necesitas ajustar la opacidad del overlay, edita `src/pages/index.astro` lín
 
 Cada sección tiene un conjunto de clases Tailwind:
 
-| Página             | Color por defecto |
-| ------------------ | ----------------- |
-| Inicio             | Azul              |
-| Núcleo Académico   | Rojo              |
-| Repositorio Tesis  | Negro             |
+| Página              | Color por defecto |
+| ------------------- | ----------------- |
+| Inicio              | Azul              |
+| Núcleo Académico    | Rojo              |
+| Repositorio Tesinas | Negro             |
 
 Para cambiar, modifica las clases `bg`, `text`, etc. en `accentPages`.
 
@@ -94,48 +94,75 @@ export const logos = {
 
 ---
 
-## 7. Docentes (Núcleo Académico)
+## 7. Director y docentes (Núcleo Académico)
 
 **Archivo:** `src/data/docentes.ts`
 
-Edita el array `docentes`. Cada docente tiene:
+### Director (destacado arriba)
+
+```ts
+export const director: Director = {
+  nombre: "Fernando Terrazas Sánchez",
+  cargo: "Director General",
+  foto: "assets/directivos/fernando-terrazas-sanchez.jpg",
+};
+```
+
+La foto del director va en `public/assets/directivos/`.
+
+### Docentes (grid debajo del director)
+
+Edita el array `docentes`. Cada docente tiene una forma simple (solo foto + nombre):
 
 ```ts
 {
-  id: "d01",
-  nombre: "Nombre del Docente",
-  materia: "Nombre de la materia",
-  carrera: "Carrera de la que se graduó",
-  foto: "assets/docentes/nombre-archivo.jpg", // o undefined si no hay foto
+  id: "ana-sugey-tzeek-galindo",
+  nombre: "Ana Sugey Tzeek Galindo",
+  foto: "assets/docentes/ana-sugey-tzeek-galindo.jpg",
 }
 ```
 
-**IMPORTANTE:** Las rutas de fotos NO llevan "/" al inicio (igual que los logos).
-
-**Fotos:** guárdalas en `public/assets/docentes/`.
-
-El orden en la página es **alfabético por nombre** (automático).
-
----
-
-## 8. Tesis (Repositorio de Tesis)
-
-**Archivo:** `src/data/tesis.ts`
-
-Edita el array `tesis`. Cada tesis tiene:
+Para reservar un slot pendiente (sin foto todavía):
 
 ```ts
 {
-  id: "t01",
-  titulo: "Título de la tesis",
-  alumnos: ["Alumno 1", "Alumno 2"],
+  id: "docente-pendiente",
+  nombre: "Próximamente",
+  pendiente: true,
+}
+```
+
+**IMPORTANTE:** Las rutas de fotos NO llevan "/" al inicio.
+
+**Fotos:** `public/assets/docentes/`.
+
+El orden en la página es **alfabético por nombre**; los slots `pendiente: true` quedan al final.
+
+Actualmente: 9 docentes con foto + 1 slot pendiente.
+
+---
+
+## 8. Tesinas (Repositorio de Tesinas)
+
+**Archivo:** `src/data/tesinas.ts`
+
+Edita el array `tesinas`. Cada tesina tiene:
+
+```ts
+{
+  id: "mas-que-una-suma",
+  titulo: "Más que una suma",
+  alumnos: ["Nombre del autor 1", "Nombre del autor 2"],
   anio: 2026,
-  resumen: "Resumen breve de la tesis.",
+  resumen: "Resumen amplio de la tesina.",
+  imagen: "assets/tesinas/mas-que-una-suma.jpg",
   pdfUrl: "https://drive.google.com/...", // o undefined si no hay PDF aún
 }
 ```
 
-Si `pdfUrl` está vacío/undefined, se muestra un botón "PDF próximamente" deshabilitado.
+**Imágenes:** `public/assets/tesinas/`. Si `pdfUrl` está vacío/undefined, se muestra un botón "PDF próximamente" deshabilitado.
+
+> Los enlaces de Google Drive de las 5 tesinas todavía están pendientes; cuando lleguen, sustituye `pdfUrl: undefined` por la URL real.
 
 ---
 
@@ -211,7 +238,7 @@ El workflow de GitHub Actions:
 
 ### Rutas y el prefijo `/CHAI/`
 
-Todas las rutas de assets (imágenes, logos) y links internos usan `import.meta.env.BASE_URL` para agregar automáticamente el prefijo `/CHAI/`. Por eso las rutas en `site.ts` y `docentes.ts` **NO llevan "/" al inicio**.
+Todas las rutas de assets (imágenes, logos) y links internos usan `import.meta.env.BASE_URL` para agregar automáticamente el prefijo `/CHAI/`. Por eso las rutas en `site.ts`, `docentes.ts` y `tesinas.ts` **NO llevan "/" al inicio**.
 
 ---
 
@@ -233,20 +260,20 @@ Los archivos generados quedan en la carpeta `dist/`.
 src/
 ├── data/
 │   ├── site.ts        ← Datos globales, hero, contacto, logos, colores
-│   ├── docentes.ts    ← 11 docentes del núcleo académico
-│   └── tesis.ts       ← 3 tesis del repositorio
+│   ├── docentes.ts    ← Director + cuerpo docente del núcleo académico
+│   └── tesinas.ts     ← Tesinas del repositorio
 ├── pages/
-│   ├── index.astro           ← Página de Inicio (hero con fondo fotográfico)
-│   ├── nucleo-academico.astro ← Núcleo Académico
-│   ├── repositorio-tesis.astro ← Repositorio de Tesis
-│   └── 404.astro             ← Página de error
+│   ├── index.astro                ← Página de Inicio (hero con fondo fotográfico)
+│   ├── nucleo-academico.astro     ← Director destacado + grid de docentes
+│   ├── repositorio-tesinas.astro  ← Repositorio de Tesinas
+│   └── 404.astro                  ← Página de error
 ├── components/
 │   ├── layout/
 │   │   ├── Navbar.astro      ← Barra de navegación
 │   │   └── Footer.astro      ← Pie de página (logos en pastilla blanca)
 │   ├── cards/
-│   │   ├── DocenteCard.tsx   ← Tarjeta de docente
-│   │   └── TesisCard.tsx     ← Tarjeta de tesis
+│   │   ├── DocenteCard.tsx   ← Tarjeta de docente (foto + nombre)
+│   │   └── TesinaCard.tsx    ← Tarjeta visual de tesina (imagen + datos + PDF)
 │   └── ui/
 │       ├── PageHeader.tsx    ← Encabezado de página reutilizable
 │       └── button.tsx        ← Componente de botón
@@ -259,9 +286,11 @@ public/
 ├── assets/
 │   ├── logos/
 │   │   ├── logo-uagro.webp       ← Logo UAGro
-│   │   └── logoprepanuevo.png     ← Logo Preparatoria (PNG transparente)
-│   ├── docentes/                  ← Fotos de docentes (pendiente)
-│   └── fondohero.jpeg             ← Imagen de fondo del hero
+│   │   └── logoprepanuevo.png    ← Logo Preparatoria (PNG transparente)
+│   ├── directivos/               ← Foto del director
+│   ├── docentes/                 ← Fotos del cuerpo docente
+│   ├── tesinas/                  ← Imágenes destacadas de las tesinas
+│   └── fondohero.jpeg            ← Imagen de fondo del hero
 
 .github/
 └── workflows/

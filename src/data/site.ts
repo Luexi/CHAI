@@ -25,18 +25,16 @@ export const institucion = {
 /* ---- Hero de la página de Inicio ---- */
 export const heroInicio = {
   /** Título grande del hero */
-  titulo: "Presentaciones de proyectos Tesis 2026",
+  titulo: "Presentaciones de proyectos Tesinas 2026",
   /** Subtítulo (nombre de la institución) */
   subtitulo: "Preparatoria Popular General Emiliano Zapata",
 };
 
-/* ---- Texto de bienvenida / propósito (PLACEHOLDER) ---- */
-// TODO: Reemplazar con el texto real del propósito del proyecto.
+/* ---- Texto de bienvenida / propósito ---- */
 export const bienvenida = {
   titulo: "Bienvenida",
-  /** ⬇️  PLACEHOLDER – Reemplazar con texto definitivo  ⬇️ */
   texto:
-    "La Preparatoria Popular General Emiliano Zapata, perteneciente a la Universidad Autónoma de Guerrero, tiene como propósito formar jóvenes comprometidos con su comunidad y con una visión integral del conocimiento. Este espacio reúne las presentaciones de los proyectos de tesis de la generación 2026, reflejando el esfuerzo académico y la dedicación de nuestros estudiantes y docentes.",
+    "La Preparatoria Popular General Emiliano Zapata, perteneciente a la Universidad Autónoma de Guerrero, tiene como propósito formar jóvenes comprometidos con su comunidad y con una visión integral del conocimiento. Este espacio reúne las presentaciones de las tesinas de la generación 2026, reflejando el esfuerzo académico y la dedicación de nuestros estudiantes y docentes.",
 };
 
 /* ---- Contacto / Footer ---- */
@@ -91,7 +89,7 @@ export const accentPages = {
     border: "border-red-700",
     hslAccent: "0 73% 41%", // rojo
   },
-  repositorioTesis: {
+  repositorioTesinas: {
     bg: "bg-gray-900",
     bgLight: "bg-gray-900/10",
     text: "text-gray-900",
