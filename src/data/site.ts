@@ -89,6 +89,13 @@ export const accentPages = {
     border: "border-red-700",
     hslAccent: "0 73% 41%", // rojo
   },
+  ejesFormativos: {
+    bg: "bg-blue-800",
+    bgLight: "bg-blue-800/10",
+    text: "text-blue-800",
+    border: "border-blue-800",
+    hslAccent: "216 79% 20%", // azul institucional
+  },
   repositorioTesinas: {
     bg: "bg-gray-900",
     bgLight: "bg-gray-900/10",

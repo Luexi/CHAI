@@ -28,3 +28,8 @@ fondohero.jpeg
 logoprepanuevo.png
 logoprepa.jpg
 .claude/
+
+# Material fuente local (fotos originales, PDFs, resúmenes).
+# No se publica en el repo: las fotos ya están integradas en public/assets/
+# y los PDFs vivirán en Google Drive (ver pdfUrl en src/data/tesinas.ts).
+Modificaciones/

@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { EjeFormativoCard } from "@/components/cards/EjeFormativoCard";
+import { ejesFormativos } from "@/data/ejesFormativos";
+import { institucion } from "@/data/site";
+---
+
+<BaseLayout
+  title={`Ejes Formativos | ${institucion.nombre}`}
+  description="Conoce los ejes formativos de Humanidades y Pensamiento Matemático, pilares para el desarrollo crítico, ético, lógico y creativo de los estudiantes."
+>
+  <PageHeader
+    title="Ejes Formativos"
+    subtitle="Humanidades y Pensamiento Matemático como bases para el desarrollo crítico, ético, lógico y creativo de los estudiantes."
+    badge="Formación Integral"
+  />
+
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <p class="text-center text-lg leading-relaxed text-muted-foreground">
+        Estos ejes fortalecen la formación integral del estudiante al vincular la sensibilidad humana, la reflexión ética y el razonamiento lógico con situaciones de la vida académica y social.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="max-w-6xl mx-auto px-4 space-y-10">
+      {ejesFormativos.map((eje, index) => (
+        <EjeFormativoCard eje={eje} reverse={index % 2 === 1} />
+      ))}
+    </div>
+  </section>
+
+  <section class="pb-20">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="rounded-2xl bg-primary px-6 py-10 text-center text-primary-foreground shadow-sm">
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed">
+          Estos ejes fortalecen la formación integral del estudiante, combinando sensibilidad humana, pensamiento crítico y razonamiento lógico para comprender y transformar su entorno.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

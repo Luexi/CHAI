@@ -11,7 +11,7 @@ El sitio sigue una arquitectura clásica de **Astro SSG** (Static Site Generatio
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  src/data/*.ts                                          │
-│  (contenido editable: site, docentes, tesinas)          │
+│  (contenido editable: site, docentes, ejes, tesinas)    │
 └────────────────────┬────────────────────────────────────┘
                      │ import
                      ▼
@@ -21,6 +21,7 @@ El sitio sigue una arquitectura clásica de **Astro SSG** (Static Site Generatio
 │                                                         │
 │  ┌─── index.astro ──────── /CHAI/                       │
 │  ├─── nucleo-academico ─── /CHAI/nucleo-academico       │
+│  ├─── ejes-formativos ──── /CHAI/ejes-formativos        │
 │  ├─── repositorio-tesinas  /CHAI/repositorio-tesinas    │
 │  └─── 404.astro ────────── /CHAI/404                    │
 └────────────────────┬────────────────────────────────────┘
@@ -39,6 +40,7 @@ El sitio sigue una arquitectura clásica de **Astro SSG** (Static Site Generatio
 │  ├── layout/Navbar.astro    → Navegación fija flotante  │
 │  ├── layout/Footer.astro    → Contacto + horarios       │
 │  ├── cards/DocenteCard.tsx  → Tarjeta de docente        │
+│  ├── cards/EjeFormativoCard.tsx → Bloque de eje         │
 │  ├── cards/TesinaCard.tsx   → Tarjeta visual de tesina  │
 │  ├── ui/PageHeader.tsx      → Header de páginas internas│
 │  └── ui/button.tsx          → Botón (shadcn/ui)         │
@@ -64,6 +66,8 @@ src/data/site.ts ──────────┬──→ BaseLayout.astro (ti
                             └──→ index.astro (heroInicio, bienvenida, institucion, logos)
 
 src/data/docentes.ts ──────→ nucleo-academico.astro → director destacado + DocenteCard.tsx (×N)
+
+src/data/ejesFormativos.ts → ejes-formativos.astro → EjeFormativoCard.tsx (×N)
 
 src/data/tesinas.ts ───────→ repositorio-tesinas.astro → TesinaCard.tsx (×N)
 ```
@@ -96,7 +100,7 @@ interface Props {
 
 - **Posición:** Flotante fija, centrada, con `backdrop-blur` y borde.
 - **Elementos de navegación** definidos internamente (no configurables desde datos):
-  - `navItems[]`: Inicio, Núcleo Académico
+  - `navItems[]`: Inicio, Núcleo Académico, Ejes Formativos
   - `ctaItem`: Repositorio de Tesinas (botón destacado rojo)
 - **Menú móvil:** Toggle con JavaScript vanilla (script inline al final del archivo).
 - **Resaltado activo:** Función `isActive()` compara `Astro.url.pathname` con el `href` de cada enlace.
@@ -137,6 +141,16 @@ Props: { tesina: Tesina }
 - Si `tesina.pdfUrl` existe → botón "Abrir PDF" que abre en nueva pestaña.
 - Si no → botón "PDF próximamente" deshabilitado.
 
+### EjeFormativoCard.tsx
+
+```
+Props: { eje: EjeFormativo, reverse?: boolean }
+```
+
+- Renderiza un bloque amplio con imagen, definición extensa, objetivos, temas desarrollados, capacidades detalladas opcionales y ejemplos cuando existen.
+- Alterna la imagen y el contenido en desktop mediante `reverse`.
+- Usa rutas con `import.meta.env.BASE_URL` para mantener compatibilidad con GitHub Pages.
+
 ### PageHeader.tsx
 
 ```
@@ -167,7 +181,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 // Resultado: "/CHAI/assets/logos/logoprepanuevo.png"
 ```
 
-Por eso las rutas en `src/data/site.ts`, `src/data/docentes.ts` y `src/data/tesinas.ts` **no llevan "/" al inicio**.
+Por eso las rutas en `src/data/site.ts`, `src/data/docentes.ts`, `src/data/ejesFormativos.ts` y `src/data/tesinas.ts` **no llevan "/" al inicio**.
 
 ### Ubicación de assets
 
@@ -176,6 +190,7 @@ Por eso las rutas en `src/data/site.ts`, `src/data/docentes.ts` y `src/data/tesi
 | Logos            | `public/assets/logos/`          | PNG (transparente), WebP |
 | Foto director    | `public/assets/directivos/`     | JPEG, WebP (cuadrada)    |
 | Fotos docentes   | `public/assets/docentes/`       | JPEG, WebP (4:5)         |
+| Ejes formativos  | `public/assets/ejes-formativos/` | WebP, JPEG               |
 | Fotos tesinas    | `public/assets/tesinas/`        | JPEG, WebP (4:3 o 16:9)  |
 | Fondo hero       | `public/assets/fondohero.jpeg`  | JPEG (landscape)         |
 | PDFs de tesinas  | Externos (Google Drive, etc.)   | URL pública              |
@@ -190,10 +205,10 @@ Los archivos en `public/` se copian tal cual a `dist/`. No pasan por el pipeline
 
 ### Nombres de archivos
 
-- **Páginas Astro:** kebab-case (`nucleo-academico.astro`, `repositorio-tesinas.astro`).
-- **Componentes React:** PascalCase (`DocenteCard.tsx`, `TesinaCard.tsx`, `PageHeader.tsx`). Excepción: `button.tsx` (convención shadcn/ui).
+- **Páginas Astro:** kebab-case (`nucleo-academico.astro`, `ejes-formativos.astro`, `repositorio-tesinas.astro`).
+- **Componentes React:** PascalCase (`DocenteCard.tsx`, `EjeFormativoCard.tsx`, `TesinaCard.tsx`, `PageHeader.tsx`). Excepción: `button.tsx` (convención shadcn/ui).
 - **Componentes Astro:** PascalCase (`Navbar.astro`, `Footer.astro`, `BaseLayout.astro`).
-- **Datos:** camelCase (`site.ts`, `docentes.ts`, `tesinas.ts`).
+- **Datos:** camelCase (`site.ts`, `docentes.ts`, `ejesFormativos.ts`, `tesinas.ts`).
 
 ### Alias de importación
 
@@ -209,6 +224,7 @@ import { DocenteCard } from "@/components/cards/DocenteCard";
 Interfaces TypeScript definidas junto a los datos:
 
 - `Docente`, `Director` → `src/data/docentes.ts`
+- `EjeFormativo` → `src/data/ejesFormativos.ts`
 - `Tesina` → `src/data/tesinas.ts`
 
 ---
@@ -226,6 +242,10 @@ Interfaces TypeScript definidas junto a los datos:
 ### Agregar más docentes o tesinas
 
 Simplemente agregar elementos a los arrays en `docentes.ts` o `tesinas.ts`. El grid y la lista se adaptan automáticamente.
+
+### Agregar más ejes formativos
+
+Agregar un nuevo objeto al array `ejesFormativos` en `src/data/ejesFormativos.ts`, subir su imagen a `public/assets/ejes-formativos/` y verificar que el campo `imagen` use una ruta sin `/` inicial. La página renderiza automáticamente cada eje con `EjeFormativoCard`.
 
 ### Migrar a un dominio personalizado
 
@@ -252,14 +272,17 @@ El sitio es monolingüe (español). Si se necesitara i18n, habría que evaluar l
 | ----------------------------------- | ---------------------------------------- | ------ |
 | Textos del hero, bienvenida, lema   | `src/data/site.ts`                       | Nulo   |
 | Datos de docentes                   | `src/data/docentes.ts`                   | Nulo   |
+| Datos de Ejes Formativos            | `src/data/ejesFormativos.ts`             | Nulo   |
 | Datos de tesinas                    | `src/data/tesinas.ts`                    | Nulo   |
 | Contacto, horarios                  | `src/data/site.ts` → `contacto`          | Nulo   |
 | Logos (reemplazo por misma ruta)    | `public/assets/logos/`                   | Nulo   |
 | Foto del hero (reemplazo)           | `public/assets/fondohero.jpeg`           | Nulo   |
 | Fotos de docentes                   | `public/assets/docentes/`               | Nulo   |
+| Imágenes de Ejes Formativos         | `public/assets/ejes-formativos/`        | Nulo   |
 | Colores institucionales (CSS)       | `src/styles/global.css`                  | Bajo   |
 | Colores de acento por página        | `src/data/site.ts` → `accentPages`       | Bajo   |
 | Agregar un docente al array         | `src/data/docentes.ts`                   | Nulo   |
+| Agregar un eje al array             | `src/data/ejesFormativos.ts`             | Nulo   |
 | Agregar una tesina al array         | `src/data/tesinas.ts`                    | Nulo   |
 
 ---

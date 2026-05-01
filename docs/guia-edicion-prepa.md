@@ -64,6 +64,7 @@ Cada sección tiene un conjunto de clases Tailwind:
 | ------------------- | ----------------- |
 | Inicio              | Azul              |
 | Núcleo Académico    | Rojo              |
+| Ejes Formativos     | Azul              |
 | Repositorio Tesinas | Negro             |
 
 Para cambiar, modifica las clases `bg`, `text`, etc. en `accentPages`.
@@ -142,7 +143,54 @@ Actualmente: 9 docentes con foto + 1 slot pendiente.
 
 ---
 
-## 8. Tesinas (Repositorio de Tesinas)
+## 8. Ejes Formativos
+
+**Ruta:** `/ejes-formativos`
+
+**Archivo de contenido:** `src/data/ejesFormativos.ts`
+
+Esta sección presenta Humanidades y Pensamiento Matemático como pilares formativos, no como un listado académico incompleto. El contenido inicial fue desarrollado a partir del Word colocado en la raíz del repositorio (`Documento sin título.docx`).
+
+Cada eje se edita con esta estructura:
+
+```ts
+{
+  id: "humanidades",
+  titulo: "Humanidades",
+  imagen: "assets/ejes-formativos/humanidades.webp",
+  definicion: "Texto introductorio...",
+  descripcionLarga: [
+    "Párrafo amplio...",
+  ],
+  objetivos: [
+    "Idea formativa...",
+  ],
+  temasDetalle: [
+    {
+      titulo: "Pirámide de Maslow",
+      descripcion: "Explicación del tema...",
+      detalles: ["Punto complementario..."],
+    },
+  ],
+  capacidadesDetalle: [
+    {
+      nombre: "Numérico",
+      descripcion: "Explicación breve...",
+    },
+  ], // opcional
+  accent: "red",
+}
+```
+
+**Imágenes:** `public/assets/ejes-formativos/`
+
+Para reemplazar una imagen, sube el archivo final a esa carpeta con nombre limpio, sin espacios ni acentos, y actualiza el campo `imagen`. Las rutas no llevan `/` al inicio porque el prefijo `/CHAI/` se agrega automáticamente.
+
+Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos` y sube su imagen a la misma carpeta.
+
+---
+
+## 9. Tesinas (Repositorio de Tesinas)
 
 **Archivo:** `src/data/tesinas.ts`
 
@@ -166,7 +214,7 @@ Edita el array `tesinas`. Cada tesina tiene:
 
 ---
 
-## 9. Footer (contacto, dirección, horarios)
+## 10. Footer (contacto, dirección, horarios)
 
 **Archivo:** `src/data/site.ts` → objeto `contacto`
 
@@ -185,7 +233,7 @@ export const contacto = {
 
 ---
 
-## 10. Correr el proyecto localmente
+## 11. Correr el proyecto localmente
 
 ```bash
 # Instalar dependencias (solo la primera vez)
@@ -201,7 +249,7 @@ npm run build && npm run preview
 
 ---
 
-## 11. Despliegue en GitHub Pages
+## 12. Despliegue en GitHub Pages
 
 El sitio se despliega automáticamente a **GitHub Pages** cada vez que haces push a la rama `main`.
 
@@ -238,11 +286,11 @@ El workflow de GitHub Actions:
 
 ### Rutas y el prefijo `/CHAI/`
 
-Todas las rutas de assets (imágenes, logos) y links internos usan `import.meta.env.BASE_URL` para agregar automáticamente el prefijo `/CHAI/`. Por eso las rutas en `site.ts`, `docentes.ts` y `tesinas.ts` **NO llevan "/" al inicio**.
+Todas las rutas de assets (imágenes, logos) y links internos usan `import.meta.env.BASE_URL` para agregar automáticamente el prefijo `/CHAI/`. Por eso las rutas en `site.ts`, `docentes.ts`, `ejesFormativos.ts` y `tesinas.ts` **NO llevan "/" al inicio**.
 
 ---
 
-## 12. Validar el build antes de desplegar
+## 13. Validar el build antes de desplegar
 
 ```bash
 # Verificar tipos TypeScript + generar sitio estático
@@ -261,10 +309,12 @@ src/
 ├── data/
 │   ├── site.ts        ← Datos globales, hero, contacto, logos, colores
 │   ├── docentes.ts    ← Director + cuerpo docente del núcleo académico
+│   ├── ejesFormativos.ts ← Humanidades y Pensamiento Matemático
 │   └── tesinas.ts     ← Tesinas del repositorio
 ├── pages/
 │   ├── index.astro                ← Página de Inicio (hero con fondo fotográfico)
 │   ├── nucleo-academico.astro     ← Director destacado + grid de docentes
+│   ├── ejes-formativos.astro      ← Ejes Formativos
 │   ├── repositorio-tesinas.astro  ← Repositorio de Tesinas
 │   └── 404.astro                  ← Página de error
 ├── components/
@@ -273,6 +323,7 @@ src/
 │   │   └── Footer.astro      ← Pie de página (logos en pastilla blanca)
 │   ├── cards/
 │   │   ├── DocenteCard.tsx   ← Tarjeta de docente (foto + nombre)
+│   │   ├── EjeFormativoCard.tsx ← Bloque visual de eje formativo
 │   │   └── TesinaCard.tsx    ← Tarjeta visual de tesina (imagen + datos + PDF)
 │   └── ui/
 │       ├── PageHeader.tsx    ← Encabezado de página reutilizable
@@ -289,6 +340,7 @@ public/
 │   │   └── logoprepanuevo.png    ← Logo Preparatoria (PNG transparente)
 │   ├── directivos/               ← Foto del director
 │   ├── docentes/                 ← Fotos del cuerpo docente
+│   ├── ejes-formativos/          ← Imágenes de la sección Ejes Formativos
 │   ├── tesinas/                  ← Imágenes destacadas de las tesinas
 │   └── fondohero.jpeg            ← Imagen de fondo del hero
 

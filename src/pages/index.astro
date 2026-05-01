@@ -89,7 +89,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
   <!-- ===== NAVEGACIÓN RÁPIDA ===== -->
   <section class="py-20">
     <div class="max-w-6xl mx-auto px-4">
-      <div class="grid md:grid-cols-2 gap-8">
+      <div class="grid md:grid-cols-3 gap-8">
         <a
           href={`${base}nucleo-academico`}
           class="group relative overflow-hidden rounded-2xl bg-red-700 p-8 text-white hover:shadow-xl transition-all"
@@ -107,6 +107,24 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             </span>
           </div>
           <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full"></div>
+        </a>
+
+        <a
+          href={`${base}ejes-formativos`}
+          class="group relative overflow-hidden rounded-2xl bg-blue-800 p-8 text-white hover:shadow-xl transition-all"
+        >
+          <div class="relative z-10">
+            <h3 class="font-display text-2xl font-semibold mb-3">
+              Ejes Formativos
+            </h3>
+            <p class="text-white/80 mb-4">
+              Explora los pilares de Humanidades y Pensamiento Matemático en la formación integral.
+            </p>
+            <span class="inline-flex items-center gap-2 font-medium group-hover:gap-3 transition-all">
+              Ver ejes
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
         </a>
 
         <a

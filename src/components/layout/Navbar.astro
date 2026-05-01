@@ -12,6 +12,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 const navItems = [
   { label: "Inicio", href: base },
   { label: "Núcleo Académico", href: `${base}nucleo-academico` },
+  { label: "Ejes Formativos", href: `${base}ejes-formativos` },
 ];
 
 const ctaItem = { label: "Repositorio de Tesinas", href: `${base}repositorio-tesinas` };
@@ -95,7 +96,14 @@ function isActive(href: string) {
           </a>
         ))}
         <a href={ctaItem.href} class="mt-2">
-          <button class="w-full inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 h-10 px-4 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-xl">
+          <button
+            class:list={[
+              "w-full inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 h-10 px-4 py-2 rounded-xl",
+              isActive(ctaItem.href)
+                ? "bg-destructive/80 text-destructive-foreground"
+                : "bg-destructive hover:bg-destructive/90 text-destructive-foreground",
+            ]}
+          >
             {ctaItem.label}
           </button>
         </a>
