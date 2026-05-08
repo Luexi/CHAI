@@ -11,7 +11,7 @@ El sitio presenta las actividades académicas de la preparatoria con cuatro secc
 Crear una presencia web sencilla, moderna y fácil de mantener para la preparatoria, donde se pueda:
 
 - Mostrar la identidad institucional (logos, lema, colores).
-- Presentar al Director General, al Director Escolar y al cuerpo docente del núcleo académico.
+- Presentar al Director General, al Coordinador Escolar y al cuerpo docente del núcleo académico.
 - Explicar los ejes formativos de Humanidades, Pensamiento Matemático y Ciencias Naturales.
 - Publicar las tesinas de los estudiantes con enlaces a PDF (Google Drive).
 
@@ -48,7 +48,7 @@ CHAI/
 │   └── guia-edicion-prepa.md       ← Guía detallada de edición de contenido
 ├── public/
 │   ├── assets/
-│   │   ├── directivos/             ← Fotos del Director General y Director Escolar
+│   │   ├── directivos/             ← Fotos del Director General y Coordinador Escolar
 │   │   ├── docentes/               ← Fotos de los 11 docentes
 │   │   ├── ejes-formativos/        ← Imágenes de Humanidades, Pensamiento Matemático y Ciencias Naturales
 │   │   ├── tesinas/                ← Fotos de las 5 tesinas
@@ -72,7 +72,7 @@ CHAI/
 │   │       └── button.tsx          ← Componente Button (shadcn/ui)
 │   ├── data/
 │   │   ├── site.ts                 ← Datos globales: institución, hero, contacto, logos, colores
-│   │   ├── docentes.ts             ← Director General + Director Escolar + 11 docentes
+│   │   ├── docentes.ts             ← Director General + Coordinador Escolar + 11 docentes
 │   │   ├── ejesFormativos.ts       ← Humanidades, Pensamiento Matemático y Ciencias Naturales
 │   │   └── tesinas.ts              ← 5 tesinas con foto, resumen y pdfUrl opcional
 │   ├── layouts/
@@ -125,7 +125,7 @@ Todo el contenido editable vive en `src/data/`:
 | Archivo          | Contenido                                                  |
 | ---------------- | ---------------------------------------------------------- |
 | `site.ts`        | Nombre de la institución, lema, hero, bienvenida, contacto, logos, colores de acento |
-| `docentes.ts`    | `directorGeneral` + `directorEscolar` (destacados) + array `docentes` (nombre + foto) |
+| `docentes.ts`    | `directorGeneral` + `coordinadorEscolar` (destacados) + array `docentes` (nombre + foto) |
 | `ejesFormativos.ts` | Ejes de Humanidades, Pensamiento Matemático y Ciencias Naturales: definición, objetivo, capacidades, temas e imagen |
 | `tesinas.ts`     | Array de 5 tesinas (título, alumnos, año, resumen, imagen, pdfUrl) |
 
@@ -179,7 +179,7 @@ Actualmente hay 11 docentes con foto.
 
 **Contenido editable:**
 - Director General → `src/data/docentes.ts` → `directorGeneral`.
-- Director Escolar → `src/data/docentes.ts` → `directorEscolar`.
+- Coordinador Escolar → `src/data/docentes.ts` → `coordinadorEscolar`.
 - Docentes → `src/data/docentes.ts` → array `docentes`.
 
 **Fotos:** `public/assets/directivos/` (directores) y `public/assets/docentes/` (maestros).
@@ -193,7 +193,7 @@ Página institucional que presenta tres pilares académicos: **Humanidades** (ac
 **Contenido editable:** `src/data/ejesFormativos.ts`.
 **Imágenes:** `public/assets/ejes-formativos/`.
 
-El contenido fue sintetizado a partir de los documentos Word colocados en la raíz del repositorio. El sitio no depende de esos archivos para producción; las imágenes finales viven en `public/assets/ejes-formativos/` (Ciencias Naturales actualmente usa `placeholder.svg` hasta que llegue una imagen final).
+El contenido fue sintetizado a partir de los documentos Word colocados en la raíz del repositorio. El sitio no depende de esos archivos para producción; las imágenes finales viven en `public/assets/ejes-formativos/`.
 
 Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos` con `id`, `titulo`, `imagen`, `definicion`, `objetivo`, `temas`, `capacidades` opcional y `accent`. El campo `accent` admite `"red"`, `"blue"` o `"green"`; para añadir un color nuevo, regístralo también en `accentStyles` dentro de `src/components/cards/EjeFormativoCard.tsx`. Luego sube la imagen a `public/assets/ejes-formativos/` con un nombre web-friendly.
 
@@ -201,9 +201,11 @@ Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos
 
 **Archivo:** `src/pages/repositorio-tesinas.astro`
 
-Lista vertical de tarjetas visuales (`TesinaCard.tsx`). Cada tarjeta muestra imagen destacada, año, título, alumnos, resumen amplio y botón de PDF. Si la tesina tiene `pdfUrl`, se muestra un botón "Abrir PDF" que abre en nueva pestaña; si no, aparece un botón "PDF próximamente" deshabilitado.
+Lista vertical de tarjetas visuales (`TesinaCard.tsx`). Cada tarjeta muestra **vista previa embebida del PDF de Google Drive** (iframe a `drive.google.com/file/d/{id}/preview`), año, título, alumnos, resumen amplio y botón "Abrir PDF" que abre el documento en una pestaña nueva. Cuando la tesina no tiene `pdfUrl`, en lugar de la vista previa se muestra la imagen estática (`imagen`) y el botón aparece como "PDF próximamente" deshabilitado.
 
-Actualmente hay **5 tesinas** integradas. Los autores y los enlaces de Google Drive están pendientes de confirmar (todos los `pdfUrl` están como `undefined`, por lo que las tarjetas muestran "PDF próximamente").
+Los archivos PDF NO se alojan en el sitio: viven exclusivamente en Google Drive. Cada link debe tener el permiso "Cualquier persona con el enlace puede ver" para que la vista previa cargue.
+
+Actualmente hay **5 tesinas** integradas, todas con `pdfUrl` y vista previa activa. Los autores siguen pendientes de confirmar.
 
 **Contenido editable:** `src/data/tesinas.ts` → array `tesinas`.
 **Imágenes:** `public/assets/tesinas/`.
@@ -260,7 +262,7 @@ export const logos = {
 
 ### Editar a los directores
 
-**Archivo:** `src/data/docentes.ts` → `directorGeneral` y `directorEscolar`
+**Archivo:** `src/data/docentes.ts` → `directorGeneral` y `coordinadorEscolar`
 
 ```ts
 export const directorGeneral: Director = {
@@ -269,10 +271,10 @@ export const directorGeneral: Director = {
   foto: "assets/directivos/fernando-terrazas-sanchez.jpg",
 };
 
-export const directorEscolar: Director = {
-  nombre: "Vegeta Terrazas",
-  cargo: "Director Escolar",
-  foto: "assets/directivos/vegeta-terrazas.jpg",
+export const coordinadorEscolar: Director = {
+  nombre: "Fernando Yasser Terrazas Sánchez Baños",
+  cargo: "Coordinador Escolar",
+  foto: "assets/directivos/fernando-yasser-terrazas-sanchez-banos.jpg",
 };
 ```
 
@@ -400,9 +402,7 @@ El sitio ya está integrado con el material real. Quedan solo estos pendientes e
 
 | Elemento                          | Estado                                          | Dónde editar                               |
 | --------------------------------- | ----------------------------------------------- | ------------------------------------------ |
-| **Imagen de Ciencias Naturales**  | Usando `placeholder.svg` temporalmente          | `src/data/ejesFormativos.ts` → `imagen` del eje + subir a `public/assets/ejes-formativos/` |
 | **Autores de cada tesina**        | "Pendiente de confirmar"                        | `src/data/tesinas.ts` → campo `alumnos`    |
-| **Enlaces PDF de Google Drive**   | Todos `undefined` (botón "PDF próximamente")    | `src/data/tesinas.ts` → campo `pdfUrl`     |
 
 Cuando llegue el material que falta:
 1. Sube las fotos nuevas a la carpeta correspondiente bajo `public/assets/`.
@@ -492,7 +492,7 @@ El sitio se despliega automáticamente a **GitHub Pages** con cada push a la ram
 - [ ] **Cambiar hero** → Editar `src/data/site.ts` → `heroInicio`
 - [ ] **Cambiar bienvenida** → Editar `src/data/site.ts` → `bienvenida`
 - [ ] **Cambiar lema** → Editar `src/data/site.ts` → `institucion.lema`
-- [ ] **Cambiar directores** → Editar `src/data/docentes.ts` → `directorGeneral` y/o `directorEscolar`, subir fotos a `public/assets/directivos/`
+- [ ] **Cambiar directores** → Editar `src/data/docentes.ts` → `directorGeneral` y/o `coordinadorEscolar`, subir fotos a `public/assets/directivos/`
 - [ ] **Cambiar docentes** → Editar `src/data/docentes.ts` → array `docentes`, subir fotos a `public/assets/docentes/`
 - [ ] **Cambiar Ejes Formativos** → Editar `src/data/ejesFormativos.ts`, subir imágenes a `public/assets/ejes-formativos/`
 - [ ] **Cambiar tesinas** → Editar `src/data/tesinas.ts`, subir imágenes a `public/assets/tesinas/`, agregar `pdfUrl` con enlace de Google Drive

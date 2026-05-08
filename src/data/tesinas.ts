@@ -36,7 +36,7 @@ export const tesinas: Tesina[] = [
     resumen:
       "Este trabajo de investigación explica los tipos de problemas psicológicos que afectan a los adolescentes, analiza sus causas y consecuencias, y propone estrategias para disminuir estos trastornos en la población adolescente.",
     imagen: "assets/tesinas/problemas-psicologicos.jpg",
-    pdfUrl: undefined,
+    pdfUrl: "https://drive.google.com/file/d/1HXC1Ycvr1uQKwZBzxMoDaBajxvtm87Yp/view?usp=sharing",
   },
   {
     id: "mas-que-una-suma",
@@ -46,7 +46,7 @@ export const tesinas: Tesina[] = [
     resumen:
       "En esta tesina se aborda la importancia de las matemáticas avanzadas en cualquier ámbito de la vida. Recoge la opinión de personas con amplia experiencia en la materia —incluidas figuras que han realizado aportaciones importantes— para resolver dudas frecuentes y mostrar que las matemáticas no son difíciles cuando se intenta comprenderlas: los límites del conocimiento los pone cada estudiante.",
     imagen: "assets/tesinas/mas-que-una-suma.jpg",
-    pdfUrl: undefined,
+    pdfUrl: "https://drive.google.com/file/d/10vKuJlQsK_2VVioav627YL_GIMj7EY5I/view?usp=sharing",
   },
   {
     id: "la-inseguridad",
@@ -56,7 +56,7 @@ export const tesinas: Tesina[] = [
     resumen:
       "La inseguridad es un problema social que altera la tranquilidad de los estudiantes del nivel medio superior, influyendo en su vida diaria, su desempeño académico y su bienestar emocional. La tesina analiza el fenómeno y plantea por qué es urgente atenderlo.",
     imagen: "assets/tesinas/la-inseguridad.jpg",
-    pdfUrl: undefined,
+    pdfUrl: "https://drive.google.com/file/d/1eZVcg-rwt23aP7x6WVbbXyWmzFQnRtlS/view?usp=sharing",
   },
   {
     id: "formula-general",
@@ -66,7 +66,7 @@ export const tesinas: Tesina[] = [
     resumen:
       "La fórmula general es una herramienta algebraica para resolver ecuaciones cuadráticas. Esta tesina expone su origen y utilidad, retomando los métodos geométricos que la antecedieron y mostrando cómo han evolucionado con el paso de los años.",
     imagen: "assets/tesinas/formula-general.jpg",
-    pdfUrl: undefined,
+    pdfUrl: "https://drive.google.com/file/d/1KQjniVuvzdglmi00CZMDNe1kjZ35_R39/view?usp=sharing",
   },
   {
     id: "la-pornografia",
@@ -76,6 +76,6 @@ export const tesinas: Tesina[] = [
     resumen:
       "La pornografía, considerada un tema tabú, puede afectar diversas capacidades cognitivas, sexuales y físicas en quienes la consumen. Esta investigación tiene como objetivo informar, orientar y proponer soluciones frente a su uso problemático.",
     imagen: "assets/tesinas/la-pornografia.jpg",
-    pdfUrl: undefined,
+    pdfUrl: "https://drive.google.com/file/d/15lUrZkON9-UHsWFARCPACAf0ecna74vh/view?usp=sharing",
   },
 ];

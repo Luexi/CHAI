@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { DocenteCard } from "@/components/cards/DocenteCard";
-import { docentes, directorGeneral, directorEscolar } from "@/data/docentes";
+import { docentes, directorGeneral, coordinadorEscolar } from "@/data/docentes";
 import { institucion } from "@/data/site";
 
 const rawBase = import.meta.env.BASE_URL;
@@ -15,7 +15,7 @@ const docentesOrdenados = [...docentes].sort((a, b) => {
   return a.nombre.localeCompare(b.nombre, "es");
 });
 
-const directores = [directorGeneral, directorEscolar];
+const directores = [directorGeneral, coordinadorEscolar];
 ---
 
 <BaseLayout

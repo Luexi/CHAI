@@ -157,7 +157,7 @@ export const ejesFormativos: EjeFormativo[] = [
   {
     id: "ciencias-naturales",
     titulo: "Temas Selectos de Ciencias Naturales",
-    imagen: "placeholder.svg",
+    imagen: "assets/ejes-formativos/ciencias-naturales.jpg",
     definicion:
       "Conjunto de disciplinas que estudian la vida y la naturaleza a partir de sus componentes más fundamentales; también conocidas como ciencias de la naturaleza, ciencias físico-naturales o ciencias experimentales.",
     descripcionLarga: [

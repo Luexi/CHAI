@@ -41,10 +41,10 @@ export const directorGeneral: Director = {
   foto: "assets/directivos/fernando-terrazas-sanchez.jpg",
 };
 
-export const directorEscolar: Director = {
-  nombre: "Vegeta Terrazas",
-  cargo: "Director Escolar",
-  foto: "assets/directivos/vegeta-terrazas.jpg",
+export const coordinadorEscolar: Director = {
+  nombre: "Fernando Yasser Terrazas Sánchez Baños",
+  cargo: "Coordinador Escolar",
+  foto: "assets/directivos/fernando-yasser-terrazas-sanchez-banos.jpg",
 };
 
 export const docentes: Docente[] = [
