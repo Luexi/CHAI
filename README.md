@@ -398,15 +398,12 @@ Reemplaza el archivo `public/assets/fondohero.jpeg` con la nueva imagen. Si nece
 
 ## Pendientes actuales
 
-El sitio ya está integrado con el material real. Quedan solo estos pendientes externos:
+El sitio ya está integrado con todo el material real (directores, docentes, ejes formativos y autores reales de las 5 tesinas). **No quedan pendientes externos**.
 
-| Elemento                          | Estado                                          | Dónde editar                               |
-| --------------------------------- | ----------------------------------------------- | ------------------------------------------ |
-| **Autores de cada tesina**        | "Pendiente de confirmar"                        | `src/data/tesinas.ts` → campo `alumnos`    |
+Si en el futuro hay que actualizar contenido (nuevas fotos, nuevas tesinas, nuevos docentes, etc.):
 
-Cuando llegue el material que falta:
 1. Sube las fotos nuevas a la carpeta correspondiente bajo `public/assets/`.
-2. Reemplaza el slot/valor pendiente en el archivo de datos correspondiente.
+2. Edita el archivo de datos correspondiente en `src/data/`.
 3. Ejecuta `npm run build` para validar.
 
 ### Carpeta `Modificaciones/` (local, no versionada)
