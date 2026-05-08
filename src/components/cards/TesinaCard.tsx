@@ -6,37 +6,20 @@ interface TesinaCardProps {
   tesina: Tesina;
 }
 
-function getDrivePreviewUrl(url: string | undefined): string | undefined {
-  if (!url) return undefined;
-  const match = url.match(/\/file\/d\/([^/]+)/);
-  return match ? `https://drive.google.com/file/d/${match[1]}/preview` : undefined;
-}
-
 export function TesinaCard({ tesina }: TesinaCardProps) {
   const rawBase = import.meta.env.BASE_URL;
   const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
-  const previewUrl = getDrivePreviewUrl(tesina.pdfUrl);
   const hasLink = !!tesina.pdfUrl;
 
   return (
     <article className="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-md transition-shadow flex flex-col md:flex-row">
       <div className="md:w-1/3 md:flex-shrink-0 bg-muted">
-        {previewUrl ? (
-          <iframe
-            src={previewUrl}
-            title={`Vista previa de la tesina: ${tesina.titulo}`}
-            loading="lazy"
-            allow="autoplay"
-            className="w-full h-56 md:h-full border-0"
-          />
-        ) : (
-          <img
-            src={`${base}${tesina.imagen}`}
-            alt={tesina.titulo}
-            loading="lazy"
-            className="w-full h-56 md:h-full object-cover"
-          />
-        )}
+        <img
+          src={`${base}${tesina.imagen}`}
+          alt={tesina.titulo}
+          loading="lazy"
+          className="w-full h-56 md:h-full object-cover"
+        />
       </div>
 
       <div className="md:w-2/3 p-5 md:p-6 flex flex-col">

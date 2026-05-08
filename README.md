@@ -201,11 +201,11 @@ Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos
 
 **Archivo:** `src/pages/repositorio-tesinas.astro`
 
-Lista vertical de tarjetas visuales (`TesinaCard.tsx`). Cada tarjeta muestra **vista previa embebida del PDF de Google Drive** (iframe a `drive.google.com/file/d/{id}/preview`), año, título, alumnos, resumen amplio y botón "Abrir PDF" que abre el documento en una pestaña nueva. Cuando la tesina no tiene `pdfUrl`, en lugar de la vista previa se muestra la imagen estática (`imagen`) y el botón aparece como "PDF próximamente" deshabilitado.
+Lista vertical de tarjetas visuales (`TesinaCard.tsx`). Cada tarjeta muestra imagen destacada, año, título, alumnos, resumen amplio y un botón "Abrir PDF" que lleva al documento en Google Drive en una pestaña nueva. Si la tesina no tiene `pdfUrl`, el botón aparece como "PDF próximamente" deshabilitado.
 
-Los archivos PDF NO se alojan en el sitio: viven exclusivamente en Google Drive. Cada link debe tener el permiso "Cualquier persona con el enlace puede ver" para que la vista previa cargue.
+Los archivos PDF NO se alojan en el sitio: viven exclusivamente en Google Drive. Cada link debe tener el permiso "Cualquier persona con el enlace puede ver".
 
-Actualmente hay **5 tesinas** integradas, todas con `pdfUrl` y vista previa activa. Los autores siguen pendientes de confirmar.
+Actualmente hay **5 tesinas** integradas, todas con `pdfUrl` activo. Los autores siguen pendientes de confirmar.
 
 **Contenido editable:** `src/data/tesinas.ts` → array `tesinas`.
 **Imágenes:** `public/assets/tesinas/`.
