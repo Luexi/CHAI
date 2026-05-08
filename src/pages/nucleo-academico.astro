@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { DocenteCard } from "@/components/cards/DocenteCard";
-import { docentes, director } from "@/data/docentes";
+import { docentes, directorGeneral, directorEscolar } from "@/data/docentes";
 import { institucion } from "@/data/site";
 
 const rawBase = import.meta.env.BASE_URL;
@@ -14,6 +14,8 @@ const docentesOrdenados = [...docentes].sort((a, b) => {
   if (!a.pendiente && b.pendiente) return -1;
   return a.nombre.localeCompare(b.nombre, "es");
 });
+
+const directores = [directorGeneral, directorEscolar];
 ---
 
 <BaseLayout
@@ -26,24 +28,36 @@ const docentesOrdenados = [...docentes].sort((a, b) => {
     badge="Cuerpo Docente"
   />
 
-  <!-- Director destacado -->
-  <section class="pt-16 pb-8">
-    <div class="max-w-3xl mx-auto px-4 text-center">
-      <div class="inline-flex flex-col items-center">
-        <div class="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full overflow-hidden ring-4 ring-red-700/20 shadow-lg bg-muted">
-          <img
-            src={`${base}${director.foto}`}
-            alt={director.nombre}
-            loading="lazy"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        <span class="mt-5 inline-block px-3 py-1 bg-red-700/10 text-red-700 text-sm font-medium rounded-full uppercase tracking-wide">
-          {director.cargo}
-        </span>
-        <h2 class="mt-3 font-display text-2xl sm:text-3xl font-bold text-foreground">
-          {director.nombre}
-        </h2>
+  <!-- Directores destacados -->
+  <section class="pt-16 pb-12">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 place-items-center">
+        {directores.map((director) => (
+          <div class="flex flex-col items-center text-center w-full">
+            <div class="relative w-72 sm:w-80 md:w-[22rem] lg:w-[24rem] aspect-square">
+              <!-- Capa decorativa: cuadrado offset con gradiente institucional -->
+              <div class="absolute -inset-3 -z-10 rounded-sm bg-gradient-to-br from-red-700 via-red-700/70 to-blue-900"></div>
+              <!-- Foto -->
+              <img
+                src={`${base}${director.foto}`}
+                alt={director.nombre}
+                loading="lazy"
+                class="relative w-full h-full object-cover rounded-sm shadow-2xl ring-1 ring-black/10"
+              />
+              <!-- Corner brackets vanguardistas -->
+              <span class="absolute -top-2 -left-2 h-10 w-10 border-t-4 border-l-4 border-red-700 pointer-events-none"></span>
+              <span class="absolute -bottom-2 -right-2 h-10 w-10 border-b-4 border-r-4 border-blue-900 pointer-events-none"></span>
+              <!-- Cinta de acento que rompe el cuadro -->
+              <span class="absolute -bottom-3 left-6 h-1 w-24 bg-red-700"></span>
+            </div>
+            <span class="mt-8 inline-block px-3 py-1 bg-red-700/10 text-red-700 text-sm font-medium rounded-full uppercase tracking-wide">
+              {director.cargo}
+            </span>
+            <h2 class="mt-3 font-display text-2xl sm:text-3xl font-bold text-foreground">
+              {director.nombre}
+            </h2>
+          </div>
+        ))}
       </div>
     </div>
   </section>

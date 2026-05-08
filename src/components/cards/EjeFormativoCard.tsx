@@ -24,6 +24,14 @@ const accentStyles = {
     imageBg: "bg-blue-800/5",
     ring: "ring-blue-800/15",
   },
+  green: {
+    bar: "bg-emerald-700",
+    bg: "bg-emerald-700/10",
+    text: "text-emerald-700",
+    border: "border-emerald-700/20",
+    imageBg: "bg-emerald-700/5",
+    ring: "ring-emerald-700/15",
+  },
 };
 
 export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps) {

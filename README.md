@@ -2,7 +2,7 @@
 
 Sitio web institucional estático de la **Preparatoria Popular General Emiliano Zapata**, perteneciente a la Universidad Autónoma de Guerrero (UAGro).
 
-El sitio presenta las actividades académicas de la preparatoria con cuatro secciones principales: una página de **Inicio** con hero visual y bienvenida, el **Núcleo Académico** con el director destacado y el cuerpo docente, **Ejes Formativos** con los pilares de Humanidades y Pensamiento Matemático, y el **Repositorio de Tesinas** con las tesinas de la generación 2026.
+El sitio presenta las actividades académicas de la preparatoria con cuatro secciones principales: una página de **Inicio** con hero visual y bienvenida, el **Núcleo Académico** con los directores destacados y el cuerpo docente, **Ejes Formativos** con los pilares de Humanidades, Pensamiento Matemático y Ciencias Naturales, y el **Repositorio de Tesinas** con las tesinas de la generación 2026.
 
 ---
 
@@ -11,8 +11,8 @@ El sitio presenta las actividades académicas de la preparatoria con cuatro secc
 Crear una presencia web sencilla, moderna y fácil de mantener para la preparatoria, donde se pueda:
 
 - Mostrar la identidad institucional (logos, lema, colores).
-- Presentar al director y al cuerpo docente del núcleo académico.
-- Explicar los ejes formativos de Humanidades y Pensamiento Matemático.
+- Presentar al Director General, al Director Escolar y al cuerpo docente del núcleo académico.
+- Explicar los ejes formativos de Humanidades, Pensamiento Matemático y Ciencias Naturales.
 - Publicar las tesinas de los estudiantes con enlaces a PDF (Google Drive).
 
 Es un sitio **100% estático**, sin backend, sin base de datos y sin autenticación. Todo el contenido se edita directamente en archivos TypeScript dentro del repositorio.
@@ -48,9 +48,9 @@ CHAI/
 │   └── guia-edicion-prepa.md       ← Guía detallada de edición de contenido
 ├── public/
 │   ├── assets/
-│   │   ├── directivos/             ← Foto del director
-│   │   ├── docentes/               ← Fotos de los 9 docentes
-│   │   ├── ejes-formativos/        ← Imágenes de Humanidades y Pensamiento Matemático
+│   │   ├── directivos/             ← Fotos del Director General y Director Escolar
+│   │   ├── docentes/               ← Fotos de los 11 docentes
+│   │   ├── ejes-formativos/        ← Imágenes de Humanidades, Pensamiento Matemático y Ciencias Naturales
 │   │   ├── tesinas/                ← Fotos de las 5 tesinas
 │   │   ├── logos/
 │   │   │   ├── logo-uagro.webp     ← Logo de la UAGro
@@ -72,8 +72,8 @@ CHAI/
 │   │       └── button.tsx          ← Componente Button (shadcn/ui)
 │   ├── data/
 │   │   ├── site.ts                 ← Datos globales: institución, hero, contacto, logos, colores
-│   │   ├── docentes.ts             ← Director + 9 docentes (real) + 1 slot pendiente
-│   │   ├── ejesFormativos.ts       ← Humanidades y Pensamiento Matemático
+│   │   ├── docentes.ts             ← Director General + Director Escolar + 11 docentes
+│   │   ├── ejesFormativos.ts       ← Humanidades, Pensamiento Matemático y Ciencias Naturales
 │   │   └── tesinas.ts              ← 5 tesinas con foto, resumen y pdfUrl opcional
 │   ├── layouts/
 │   │   └── BaseLayout.astro        ← Layout base: <head> + Navbar + <main> + Footer
@@ -125,8 +125,8 @@ Todo el contenido editable vive en `src/data/`:
 | Archivo          | Contenido                                                  |
 | ---------------- | ---------------------------------------------------------- |
 | `site.ts`        | Nombre de la institución, lema, hero, bienvenida, contacto, logos, colores de acento |
-| `docentes.ts`    | `director` (destacado) + array `docentes` (nombre + foto)  |
-| `ejesFormativos.ts` | Ejes de Humanidades y Pensamiento Matemático: definición, objetivo, capacidades, temas e imagen |
+| `docentes.ts`    | `directorGeneral` + `directorEscolar` (destacados) + array `docentes` (nombre + foto) |
+| `ejesFormativos.ts` | Ejes de Humanidades, Pensamiento Matemático y Ciencias Naturales: definición, objetivo, capacidades, temas e imagen |
 | `tesinas.ts`     | Array de 5 tesinas (título, alumnos, año, resumen, imagen, pdfUrl) |
 
 ### Navegación
@@ -162,7 +162,7 @@ Tailwind consume estas variables vía su configuración en `tailwind.config.ts`,
 
 Página principal con cuatro bloques:
 
-1. **Hero visual** — Imagen de fondo (`fondohero.jpeg`) con overlay oscuro al 60%, título grande, subtítulo, y logos institucionales sobre pastilla blanca.
+1. **Hero visual** — Imagen de fondo (`fondohero.jpeg`) con overlay oscuro al 60%, título grande con el nombre de la preparatoria (subtítulo opcional), y logos institucionales sobre pastilla blanca.
 2. **Lema institucional** — Blockquote con el lema sobre fondo azul (`primary`).
 3. **Bienvenida / Propósito** — Sección de texto con badge "Acerca del Proyecto". Contenido actualmente placeholder.
 4. **Navegación rápida** — Tres tarjetas-enlace: Núcleo Académico (fondo rojo), Ejes Formativos (fondo azul) y Repositorio de Tesinas (fondo negro).
@@ -173,28 +173,29 @@ Página principal con cuatro bloques:
 
 **Archivo:** `src/pages/nucleo-academico.astro`
 
-Arriba aparece el **director** destacado: foto circular grande, cargo "Director General" y nombre, todo centrado. Debajo, grid responsive de tarjetas de docentes (1-4 columnas según breakpoint). Cada tarjeta (`DocenteCard.tsx`) muestra solo la foto y el nombre. Los docentes se ordenan alfabéticamente; los slots pendientes (sin foto) quedan al final.
+Arriba aparecen los **directores destacados** lado a lado en un grid responsive (una columna en móvil, dos en desktop): cada uno con foto cuadrada grande dentro de un marco vanguardista (capa decorativa offset con gradiente institucional, *corner brackets* y cinta de acento que rompe el cuadro), su cargo en chip y su nombre. Debajo, grid responsive de tarjetas de docentes (1-4 columnas según breakpoint). Cada tarjeta (`DocenteCard.tsx`) muestra solo la foto y el nombre. Los docentes se ordenan alfabéticamente.
 
-Actualmente hay 9 docentes con foto y 1 slot reservado como "Próximamente" (un maestro pendiente de enviar foto/datos).
+Actualmente hay 11 docentes con foto.
 
 **Contenido editable:**
-- Director → `src/data/docentes.ts` → `director`.
+- Director General → `src/data/docentes.ts` → `directorGeneral`.
+- Director Escolar → `src/data/docentes.ts` → `directorEscolar`.
 - Docentes → `src/data/docentes.ts` → array `docentes`.
 
-**Fotos:** `public/assets/directivos/` (director) y `public/assets/docentes/` (maestros).
+**Fotos:** `public/assets/directivos/` (directores) y `public/assets/docentes/` (maestros).
 
 ### 3. Ejes Formativos (`/ejes-formativos`)
 
 **Archivo:** `src/pages/ejes-formativos.astro`
 
-Página institucional que presenta dos pilares académicos: **Humanidades** y **Pensamiento Matemático**. Usa dos bloques visuales amplios con imagen destacada, definición, objetivo formativo, temas clave y capacidades cuando aplica.
+Página institucional que presenta tres pilares académicos: **Humanidades** (acento rojo), **Pensamiento Matemático** (acento azul) y **Temas Selectos de Ciencias Naturales** (acento verde). Usa bloques visuales amplios con imagen destacada, definición, objetivo formativo, temas clave y capacidades cuando aplica.
 
 **Contenido editable:** `src/data/ejesFormativos.ts`.
 **Imágenes:** `public/assets/ejes-formativos/`.
 
-El contenido fue sintetizado a partir del Word colocado en la raíz del repositorio (`Documento sin título.docx`). El sitio no depende de ese archivo para producción; las imágenes finales ya viven en `public/assets/ejes-formativos/`.
+El contenido fue sintetizado a partir de los documentos Word colocados en la raíz del repositorio. El sitio no depende de esos archivos para producción; las imágenes finales viven en `public/assets/ejes-formativos/` (Ciencias Naturales actualmente usa `placeholder.svg` hasta que llegue una imagen final).
 
-Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos` con `id`, `titulo`, `imagen`, `definicion`, `objetivo`, `temas`, `capacidades` opcional y `accent`. Luego sube su imagen a `public/assets/ejes-formativos/` con un nombre web-friendly.
+Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos` con `id`, `titulo`, `imagen`, `definicion`, `objetivo`, `temas`, `capacidades` opcional y `accent`. El campo `accent` admite `"red"`, `"blue"` o `"green"`; para añadir un color nuevo, regístralo también en `accentStyles` dentro de `src/components/cards/EjeFormativoCard.tsx`. Luego sube la imagen a `public/assets/ejes-formativos/` con un nombre web-friendly.
 
 ### 4. Repositorio de Tesinas (`/repositorio-tesinas`)
 
@@ -257,19 +258,25 @@ export const logos = {
 };
 ```
 
-### Editar al director
+### Editar a los directores
 
-**Archivo:** `src/data/docentes.ts` → `director`
+**Archivo:** `src/data/docentes.ts` → `directorGeneral` y `directorEscolar`
 
 ```ts
-export const director: Director = {
+export const directorGeneral: Director = {
   nombre: "Fernando Terrazas Sánchez",
   cargo: "Director General",
   foto: "assets/directivos/fernando-terrazas-sanchez.jpg",
 };
+
+export const directorEscolar: Director = {
+  nombre: "Vegeta Terrazas",
+  cargo: "Director Escolar",
+  foto: "assets/directivos/vegeta-terrazas.jpg",
+};
 ```
 
-La foto se guarda en `public/assets/directivos/`.
+Las fotos se guardan en `public/assets/directivos/`. Ambas se muestran lado a lado al mismo tamaño con marco cuadrado vanguardista en la página de Núcleo Académico.
 
 ### Editar docentes
 
@@ -324,11 +331,11 @@ Cada eje tiene esta estructura:
       descripcion: "Explicación breve...",
     },
   ], // opcional
-  accent: "red",
+  accent: "red", // "red" | "blue" | "green"
 }
 ```
 
-Las imágenes van en `public/assets/ejes-formativos/` y las rutas no llevan `/` al inicio. El contenido inicial proviene del Word de la raíz y fue redactado como una versión web extensa.
+Las imágenes van en `public/assets/ejes-formativos/` y las rutas no llevan `/` al inicio. El contenido inicial proviene de los Word de la raíz y fue redactado como una versión web extensa.
 
 ### Editar tesinas
 
@@ -393,7 +400,7 @@ El sitio ya está integrado con el material real. Quedan solo estos pendientes e
 
 | Elemento                          | Estado                                          | Dónde editar                               |
 | --------------------------------- | ----------------------------------------------- | ------------------------------------------ |
-| **10º maestro**                   | Slot reservado como "Próximamente"              | `src/data/docentes.ts` → array `docentes`  |
+| **Imagen de Ciencias Naturales**  | Usando `placeholder.svg` temporalmente          | `src/data/ejesFormativos.ts` → `imagen` del eje + subir a `public/assets/ejes-formativos/` |
 | **Autores de cada tesina**        | "Pendiente de confirmar"                        | `src/data/tesinas.ts` → campo `alumnos`    |
 | **Enlaces PDF de Google Drive**   | Todos `undefined` (botón "PDF próximamente")    | `src/data/tesinas.ts` → campo `pdfUrl`     |
 
@@ -485,7 +492,7 @@ El sitio se despliega automáticamente a **GitHub Pages** con cada push a la ram
 - [ ] **Cambiar hero** → Editar `src/data/site.ts` → `heroInicio`
 - [ ] **Cambiar bienvenida** → Editar `src/data/site.ts` → `bienvenida`
 - [ ] **Cambiar lema** → Editar `src/data/site.ts` → `institucion.lema`
-- [ ] **Cambiar director** → Editar `src/data/docentes.ts` → `director`, subir foto a `public/assets/directivos/`
+- [ ] **Cambiar directores** → Editar `src/data/docentes.ts` → `directorGeneral` y/o `directorEscolar`, subir fotos a `public/assets/directivos/`
 - [ ] **Cambiar docentes** → Editar `src/data/docentes.ts` → array `docentes`, subir fotos a `public/assets/docentes/`
 - [ ] **Cambiar Ejes Formativos** → Editar `src/data/ejesFormativos.ts`, subir imágenes a `public/assets/ejes-formativos/`
 - [ ] **Cambiar tesinas** → Editar `src/data/tesinas.ts`, subir imágenes a `public/assets/tesinas/`, agregar `pdfUrl` con enlace de Google Drive

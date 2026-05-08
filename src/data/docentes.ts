@@ -2,8 +2,9 @@
  * =====================================================
  * Datos del Núcleo Académico
  *
- * - `director`: aparece destacado arriba en la página de
- *   Núcleo Académico (no se cuenta dentro del listado).
+ * - `directorGeneral` y `directorEscolar`: aparecen
+ *   destacados arriba en la página de Núcleo Académico
+ *   (no se cuentan dentro del listado de docentes).
  * - `docentes`: cuerpo docente. Se renderiza como grid
  *   y se ordena alfabéticamente en la página
  *   (los pendientes quedan al final).
@@ -11,7 +12,7 @@
  * Cómo editar:
  *  1. Reemplaza nombre y foto.
  *  2. Las fotos van en:
- *      - public/assets/directivos/  (director)
+ *      - public/assets/directivos/  (directores)
  *      - public/assets/docentes/    (maestros)
  *     y se referencian SIN "/" inicial.
  *  3. Para añadir un docente nuevo, agrega un objeto al
@@ -34,13 +35,24 @@ export interface Director {
   foto: string;
 }
 
-export const director: Director = {
+export const directorGeneral: Director = {
   nombre: "Fernando Terrazas Sánchez",
   cargo: "Director General",
   foto: "assets/directivos/fernando-terrazas-sanchez.jpg",
 };
 
+export const directorEscolar: Director = {
+  nombre: "Vegeta Terrazas",
+  cargo: "Director Escolar",
+  foto: "assets/directivos/vegeta-terrazas.jpg",
+};
+
 export const docentes: Docente[] = [
+  {
+    id: "alicia-olea-astudillo",
+    nombre: "Alicia Olea Astudillo",
+    foto: "assets/docentes/alicia-olea-astudillo.jpg",
+  },
   {
     id: "ana-sugey-tzeek-galindo",
     nombre: "Ana Sugey Tzeek Galindo",
@@ -72,9 +84,14 @@ export const docentes: Docente[] = [
     foto: "assets/docentes/madai-gonzalez-sainz.jpg",
   },
   {
-    id: "oliver-morales-salmeron",
-    nombre: "Oliver Morales Salmerón",
-    foto: "assets/docentes/oliver-morales-salmeron.jpg",
+    id: "margarita-bedolla-heredia",
+    nombre: "Margarita Bedolla Heredia",
+    foto: "assets/docentes/margarita-bedolla-heredia.jpg",
+  },
+  {
+    id: "oniver-morales-salmeron",
+    nombre: "Oniver Morales Salmerón",
+    foto: "assets/docentes/oniver-morales-salmeron.jpg",
   },
   {
     id: "patricia-nava-sanchez",
@@ -85,11 +102,5 @@ export const docentes: Docente[] = [
     id: "quintin-vega-rayo",
     nombre: "Quintín Vega Rayo",
     foto: "assets/docentes/quintin-vega-rayo.jpg",
-  },
-  // Slot reservado: maestro pendiente de enviar foto/datos.
-  {
-    id: "docente-pendiente",
-    nombre: "Próximamente",
-    pendiente: true,
   },
 ];

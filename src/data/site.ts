@@ -25,9 +25,9 @@ export const institucion = {
 /* ---- Hero de la página de Inicio ---- */
 export const heroInicio = {
   /** Título grande del hero */
-  titulo: "Presentaciones de proyectos Tesinas 2026",
-  /** Subtítulo (nombre de la institución) */
-  subtitulo: "Preparatoria Popular General Emiliano Zapata",
+  titulo: "Preparatoria Popular General Emiliano Zapata",
+  /** Subtítulo opcional. Dejar vacío para mostrar solo el título. */
+  subtitulo: "",
 };
 
 /* ---- Texto de bienvenida / propósito ---- */

@@ -19,7 +19,7 @@ export interface EjeFormativo {
   objetivos: string[];
   temasDetalle: EjeTemaDetalle[];
   capacidadesDetalle?: EjeCapacidadDetalle[];
-  accent: "red" | "blue";
+  accent: "red" | "blue" | "green";
 }
 
 export const ejesFormativos: EjeFormativo[] = [
@@ -153,5 +153,58 @@ export const ejesFormativos: EjeFormativo[] = [
       },
     ],
     accent: "blue",
+  },
+  {
+    id: "ciencias-naturales",
+    titulo: "Temas Selectos de Ciencias Naturales",
+    imagen: "placeholder.svg",
+    definicion:
+      "Conjunto de disciplinas que estudian la vida y la naturaleza a partir de sus componentes más fundamentales; también conocidas como ciencias de la naturaleza, ciencias físico-naturales o ciencias experimentales.",
+    descripcionLarga: [
+      "Las ciencias naturales abordan el conocimiento sobre los organismos vivos, sus relaciones, su estructura, su evolución y su entorno. Buscan estudiar la naturaleza de la manera más objetiva posible, fortaleciendo una mirada precisa y rigurosa de la realidad.",
+      "Para ello recurren al método científico: una forma de investigación sistematizada que permite formular y comprobar hipótesis. Mediante este procedimiento verificable se enuncian leyes y teorías que ayudan a comprender el funcionamiento del mundo natural.",
+    ],
+    objetivos: [
+      "Desarrollar el pensamiento científico y crítico, así como la formación de ciudadanos comprometidos con su entorno.",
+      "Capacitar a los estudiantes para resolver problemas y promover una cultura de respeto por el medio ambiente.",
+      "Fomentar el deseo de saber y la curiosidad científica como motor del aprendizaje permanente.",
+      "Fortalecer las habilidades comunicativas básicas y la comprensión del medio físico, esenciales para el desarrollo integral del estudiante.",
+    ],
+    temasDetalle: [
+      {
+        titulo: "Los Hidrocarburos",
+        descripcion:
+          "Los hidrocarburos son compuestos químicos formados por átomos de carbono e hidrógeno. Constituyen la base de los combustibles fósiles como el petróleo, el gas natural y el carbón.",
+        detalles: [
+          "Se clasifican en alifáticos, cíclicos, aromáticos y acíclicos, y también reciben los nombres de alcanos, alquenos y alquinos.",
+          "Tienen una gran variedad de usos para el ser humano: generación energética, producción de combustibles y obtención de plásticos.",
+          "Su estudio permite comprender la química de los materiales que sostienen la industria, el transporte y la vida cotidiana.",
+        ],
+      },
+      {
+        titulo: "Nomenclaturas Sistemáticas",
+        descripcion:
+          "La nomenclatura sistemática recomendada por la IUPAC nombra compuestos inorgánicos indicando la cantidad de átomos de cada elemento mediante prefijos griegos (mono, di, tri, tetra, penta, hexa, hepta, octa, non, deca).",
+        detalles: [
+          "La fórmula se lee generalmente de derecha a izquierda mencionando el número de átomos, el tipo de componente y el elemento.",
+          "Resulta ideal para identificar la estequiometría de un compuesto y comunicar su composición de forma universal.",
+          "Es una herramienta fundamental para la comunicación rigurosa entre químicos, docentes y estudiantes.",
+        ],
+        ejemplos: [
+          "FeO: Monóxido de hierro. Se utiliza el prefijo \"mono\" porque solo hay un átomo de oxígeno.",
+        ],
+      },
+      {
+        titulo: "Los Carbohidratos",
+        descripcion:
+          "Los carbohidratos —también llamados glúcidos o hidratos de carbono— son uno de los tres macronutrientes principales junto con las proteínas y las grasas, y están presentes en alimentos y bebidas.",
+        detalles: [
+          "Se clasifican según el número de moléculas que los forman y su composición nutritiva.",
+          "Participan en reacciones que incluyen pruebas analíticas y transformaciones químicas industriales.",
+          "Cumplen funciones energéticas, de ahorro de proteínas y de regulación del metabolismo en el organismo.",
+        ],
+      },
+    ],
+    accent: "green",
   },
 ];
