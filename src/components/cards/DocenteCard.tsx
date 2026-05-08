@@ -30,8 +30,8 @@ export function DocenteCard({ docente }: DocenteCardProps) {
           />
         )}
       </div>
-      <div className="p-4 text-center">
-        <h3 className="font-display text-lg font-semibold text-foreground leading-tight">
+      <div className="p-3 md:p-4 text-center">
+        <h3 className="font-display text-sm md:text-lg font-semibold text-foreground leading-tight">
           {docente.nombre}
         </h3>
       </div>

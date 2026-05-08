@@ -32,13 +32,46 @@ import { institucion } from "@/data/site";
     </div>
   </section>
 
-  <section class="pb-20">
+  <section class="pb-16 md:pb-20">
     <div class="max-w-5xl mx-auto px-4">
-      <div class="rounded-2xl bg-primary px-6 py-10 text-center text-primary-foreground shadow-sm">
-        <p class="mx-auto max-w-3xl text-lg leading-relaxed">
+      <div class="rounded-2xl bg-primary px-5 py-8 md:px-6 md:py-10 text-center text-primary-foreground shadow-sm">
+        <p class="mx-auto max-w-3xl text-base md:text-lg leading-relaxed">
           Estos ejes fortalecen la formación integral del estudiante, combinando sensibilidad humana, pensamiento crítico y razonamiento lógico para comprender y transformar su entorno.
         </p>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style is:global>
+  /* Rotar chevron cuando el details está abierto */
+  details.eje-collapsible[open] > summary .eje-chevron {
+    transform: rotate(180deg);
+  }
+  /* Quitar el triángulo nativo del summary */
+  details.eje-collapsible > summary::-webkit-details-marker { display: none; }
+  details.eje-collapsible > summary::marker { content: ""; }
+</style>
+
+<script>
+  // En desktop (md+): forzar todos los <details data-mobile-collapsible> abiertos
+  // y evitar que el click en summary los cierre. En mobile: comportamiento nativo.
+  const mql = window.matchMedia("(min-width: 768px)");
+  const collapsibles = () => document.querySelectorAll<HTMLDetailsElement>("details[data-mobile-collapsible]");
+
+  function syncOpen() {
+    if (mql.matches) {
+      collapsibles().forEach((d) => { d.open = true; });
+    }
+  }
+
+  syncOpen();
+  mql.addEventListener("change", syncOpen);
+
+  document.addEventListener("click", (e) => {
+    if (!mql.matches) return;
+    const target = e.target as HTMLElement;
+    const summary = target.closest("details[data-mobile-collapsible] > summary");
+    if (summary) e.preventDefault();
+  });
+</script>

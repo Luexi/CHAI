@@ -1,5 +1,5 @@
 import type { EjeFormativo } from "@/data/ejesFormativos";
-import { BookOpen, Brain, ListChecks, Sparkles, Target } from "lucide-react";
+import { BookOpen, Brain, ChevronDown, ListChecks, Sparkles, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface EjeFormativoCardProps {
@@ -47,30 +47,30 @@ export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps
       )}
     >
       <div className={cn("flex flex-col", reverse ? "lg:flex-row-reverse" : "lg:flex-row")}>
-        <div className={cn("lg:w-[40%] min-h-80 p-6 flex items-center justify-center", accent.imageBg)}>
+        <div className={cn("lg:w-[40%] min-h-60 md:min-h-80 p-4 md:p-6 flex items-center justify-center", accent.imageBg)}>
           <img
             src={`${base}${eje.imagen}`}
             alt={`Imagen representativa de ${eje.titulo}`}
             loading="lazy"
-            className="max-h-96 w-full rounded-xl object-contain"
+            className="max-h-72 md:max-h-96 w-full rounded-xl object-contain"
           />
         </div>
 
-        <div className="lg:w-[60%] p-6 sm:p-8">
-          <div className={cn("h-1.5 w-20 rounded-full mb-5", accent.bar)} />
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-5">
+        <div className="lg:w-[60%] p-5 sm:p-8">
+          <div className={cn("h-1.5 w-16 md:w-20 rounded-full mb-4 md:mb-5", accent.bar)} />
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 md:mb-5 leading-tight">
             {eje.titulo}
           </h2>
 
-          <section className="mb-7">
-            <h3 className={cn("mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide", accent.text)}>
+          <section className="mb-6 md:mb-7">
+            <h3 className={cn("mb-2 md:mb-3 flex items-center gap-2 text-xs md:text-sm font-semibold uppercase tracking-wide", accent.text)}>
               <BookOpen className="h-4 w-4" />
               Definición y enfoque
             </h3>
-            <p className="text-muted-foreground leading-relaxed">{eje.definicion}</p>
-            <div className="mt-4 grid gap-3">
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{eje.definicion}</p>
+            <div className="mt-3 md:mt-4 grid gap-3">
               {eje.descripcionLarga.map((parrafo) => (
-                <p key={parrafo} className="text-muted-foreground leading-relaxed">
+                <p key={parrafo} className="text-sm md:text-base text-muted-foreground leading-relaxed">
                   {parrafo}
                 </p>
               ))}
@@ -78,13 +78,13 @@ export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps
           </section>
 
           <section>
-            <h3 className={cn("mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide", accent.text)}>
+            <h3 className={cn("mb-2 md:mb-3 flex items-center gap-2 text-xs md:text-sm font-semibold uppercase tracking-wide", accent.text)}>
               <Target className="h-4 w-4" />
               Objetivo formativo
             </h3>
-            <ul className="grid gap-3">
+            <ul className="grid gap-2 md:gap-3">
               {eje.objetivos.map((objetivo) => (
-                <li key={objetivo} className="flex gap-3 text-muted-foreground">
+                <li key={objetivo} className="flex gap-3 text-sm md:text-base text-muted-foreground">
                   <span className={cn("mt-2 h-2 w-2 flex-shrink-0 rounded-full", accent.bar)} />
                   <span>{objetivo}</span>
                 </li>
@@ -94,20 +94,26 @@ export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps
         </div>
       </div>
 
-      <div className="border-t border-border p-6 sm:p-8">
+      <div className="border-t border-border p-5 sm:p-8">
         {eje.capacidadesDetalle && (
-          <section className="mb-8">
-            <h3 className={cn("mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide", accent.text)}>
-              <Brain className="h-4 w-4" />
-              Capacidades que desarrolla
-            </h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <details data-mobile-collapsible className="eje-collapsible mb-6 md:mb-8">
+            <summary className={cn(
+              "eje-summary list-none flex items-center justify-between gap-2 mb-3 md:mb-4 text-xs md:text-sm font-semibold uppercase tracking-wide cursor-pointer md:cursor-default select-none",
+              accent.text
+            )}>
+              <span className="flex items-center gap-2">
+                <Brain className="h-4 w-4" />
+                Capacidades que desarrolla
+              </span>
+              <ChevronDown className="eje-chevron h-4 w-4 md:hidden transition-transform" />
+            </summary>
+            <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {eje.capacidadesDetalle.map((capacidad) => (
                 <div
                   key={capacidad.nombre}
                   className={cn("rounded-xl border p-4 ring-1", accent.border, accent.ring)}
                 >
-                  <h4 className="font-display text-lg font-semibold text-foreground">
+                  <h4 className="font-display text-base md:text-lg font-semibold text-foreground">
                     {capacidad.nombre}
                   </h4>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -116,26 +122,34 @@ export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps
                 </div>
               ))}
             </div>
-          </section>
+          </details>
         )}
 
         <section>
-          <h3 className={cn("mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide", accent.text)}>
+          <h3 className={cn("mb-4 md:mb-5 flex items-center gap-2 text-xs md:text-sm font-semibold uppercase tracking-wide", accent.text)}>
             <ListChecks className="h-4 w-4" />
             Temas desarrollados
           </h3>
-          <div className="grid gap-5">
+          <div className="grid gap-3 md:gap-5">
             {eje.temasDetalle.map((tema) => (
-              <section key={tema.titulo} className={cn("rounded-xl border p-5", accent.border)}>
-                <h4 className="font-display text-xl font-semibold text-foreground">
-                  {tema.titulo}
-                </h4>
-                <p className="mt-3 leading-relaxed text-muted-foreground">
+              <details
+                key={tema.titulo}
+                data-mobile-collapsible
+                className={cn("eje-collapsible rounded-xl border p-4 md:p-5", accent.border)}
+              >
+                <summary className="eje-summary list-none flex items-center justify-between gap-3 cursor-pointer md:cursor-default select-none">
+                  <h4 className="font-display text-lg md:text-xl font-semibold text-foreground leading-tight">
+                    {tema.titulo}
+                  </h4>
+                  <ChevronDown className={cn("eje-chevron h-5 w-5 flex-shrink-0 md:hidden transition-transform", accent.text)} />
+                </summary>
+
+                <p className="mt-3 text-sm md:text-base leading-relaxed text-muted-foreground">
                   {tema.descripcion}
                 </p>
 
                 {tema.detalles && (
-                  <ul className="mt-4 grid gap-2">
+                  <ul className="mt-3 md:mt-4 grid gap-2">
                     {tema.detalles.map((detalle) => (
                       <li key={detalle} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
                         <span className={cn("mt-2 h-2 w-2 flex-shrink-0 rounded-full", accent.bar)} />
@@ -146,8 +160,8 @@ export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps
                 )}
 
                 {tema.ejemplos && (
-                  <div className={cn("mt-5 rounded-xl p-4", accent.bg)}>
-                    <h5 className={cn("mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide", accent.text)}>
+                  <div className={cn("mt-4 md:mt-5 rounded-xl p-3 md:p-4", accent.bg)}>
+                    <h5 className={cn("mb-2 md:mb-3 flex items-center gap-2 text-xs md:text-sm font-semibold uppercase tracking-wide", accent.text)}>
                       <Sparkles className="h-4 w-4" />
                       Ejemplos
                     </h5>
@@ -160,7 +174,7 @@ export function EjeFormativoCard({ eje, reverse = false }: EjeFormativoCardProps
                     </ul>
                   </div>
                 )}
-              </section>
+              </details>
             ))}
           </div>
         </section>

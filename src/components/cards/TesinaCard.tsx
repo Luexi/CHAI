@@ -27,7 +27,7 @@ export function TesinaCard({ tesina }: TesinaCardProps) {
             title={`Vista previa de la tesina: ${tesina.titulo}`}
             loading="lazy"
             allow="autoplay"
-            className="w-full h-72 md:h-full border-0"
+            className="w-full h-56 md:h-full border-0"
           />
         ) : (
           <img
@@ -39,14 +39,14 @@ export function TesinaCard({ tesina }: TesinaCardProps) {
         )}
       </div>
 
-      <div className="md:w-2/3 p-6 flex flex-col">
+      <div className="md:w-2/3 p-5 md:p-6 flex flex-col">
         <div className="flex items-center gap-2 mb-3">
           <span className="px-2 py-1 bg-gray-900/10 text-gray-900 text-xs font-medium rounded-lg">
             {tesina.anio}
           </span>
         </div>
 
-        <h3 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-3 leading-snug">
+        <h3 className="font-display text-lg sm:text-xl md:text-2xl font-semibold text-foreground mb-2 md:mb-3 leading-snug">
           {tesina.titulo}
         </h3>
 
@@ -59,13 +59,12 @@ export function TesinaCard({ tesina }: TesinaCardProps) {
           {tesina.resumen}
         </p>
 
-        <div className="mt-5 pt-4 border-t border-border">
+        <div className="mt-4 md:mt-5 pt-3 md:pt-4 border-t border-border">
           {hasLink ? (
-            <a href={tesina.pdfUrl} target="_blank" rel="noopener noreferrer">
+            <a href={tesina.pdfUrl} target="_blank" rel="noopener noreferrer" className="block">
               <Button
-                variant="outline"
                 size="sm"
-                className="w-full md:w-auto gap-2 rounded-xl"
+                className="w-full md:w-auto gap-2 rounded-xl bg-red-700 hover:bg-red-700/90 text-white md:bg-transparent md:text-foreground md:border md:border-input md:hover:bg-accent md:hover:text-accent-foreground"
               >
                 <ExternalLink className="h-4 w-4" />
                 Abrir PDF

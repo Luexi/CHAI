@@ -7,23 +7,23 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
 <footer class="bg-primary text-primary-foreground">
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+  <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
 
       <!-- Logos e institución -->
       <div class="lg:col-span-1">
-        <div class="inline-flex items-center gap-3 bg-white/90 rounded-xl px-4 py-2 mb-4">
+        <div class="inline-flex items-center gap-2 md:gap-3 bg-white/90 rounded-xl px-3 py-1.5 md:px-4 md:py-2 mb-3 md:mb-4">
           <img
             src={`${base}${logos.uagro}`}
             alt="UAGro"
             loading="lazy"
-            class="h-10 w-auto"
+            class="h-8 md:h-10 w-auto"
           />
           <img
             src={`${base}${logos.prepa}`}
             alt={institucion.nombreCorto}
             loading="lazy"
-            class="h-10 w-auto"
+            class="h-8 md:h-10 w-auto"
           />
         </div>
         <p class="text-primary-foreground/80 text-sm leading-relaxed">
@@ -33,7 +33,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
       <!-- Enlaces rápidos -->
       <div>
-        <h4 class="font-display text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+        <h4 class="font-display text-base md:text-lg font-semibold mb-3 md:mb-4">Enlaces Rápidos</h4>
         <ul class="space-y-2">
           <li>
             <a href={base} class="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors">
@@ -60,7 +60,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
       <!-- Contacto -->
       <div>
-        <h4 class="font-display text-lg font-semibold mb-4">Contacto</h4>
+        <h4 class="font-display text-base md:text-lg font-semibold mb-3 md:mb-4">Contacto</h4>
         <ul class="space-y-3">
           <li class="flex items-start gap-2">
             <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
@@ -85,8 +85,22 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
       <!-- Horarios -->
       <div>
-        <h4 class="font-display text-lg font-semibold mb-4">Horarios</h4>
-        <ul class="space-y-1.5">
+        <h4 class="font-display text-base md:text-lg font-semibold mb-3 md:mb-4">Horarios</h4>
+
+        <!-- Resumen compacto (móvil) -->
+        <ul class="md:hidden space-y-2 text-sm text-primary-foreground/80">
+          <li class="flex items-start gap-2">
+            <Clock className="h-4 w-4 mt-0.5 flex-shrink-0 opacity-60" />
+            <span><span class="font-medium">Lun–Vie:</span> 7:30 a.m. – 3:30 p.m.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <Clock className="h-4 w-4 mt-0.5 flex-shrink-0 opacity-60" />
+            <span><span class="font-medium">Sáb y Dom:</span> Cerrado</span>
+          </li>
+        </ul>
+
+        <!-- Lista completa (desktop) -->
+        <ul class="hidden md:block space-y-1.5">
           {contacto.horarios.map((h) => (
             <li class="flex items-center gap-2 text-sm text-primary-foreground/80">
               <Clock className="h-4 w-4 flex-shrink-0 opacity-60" />
@@ -98,9 +112,9 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
       </div>
     </div>
 
-    <div class="mt-12 pt-8 border-t border-primary-foreground/20">
+    <div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-primary-foreground/20">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-sm text-primary-foreground/60">
+        <p class="text-xs md:text-sm text-primary-foreground/60 text-center md:text-left">
           &copy; {new Date().getFullYear()} {institucion.nombre}. Todos los derechos reservados.
         </p>
       </div>
