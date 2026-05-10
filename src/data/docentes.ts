@@ -80,7 +80,7 @@ export const docentes: Docente[] = [
   },
   {
     id: "madai-gonzalez-sainz",
-    nombre: "Madai González Sainz",
+    nombre: "Madaí Estela Sainz González",
     foto: "assets/docentes/madai-gonzalez-sainz.jpg",
   },
   {
