@@ -4,6 +4,8 @@ Sitio web institucional estático de la **Preparatoria Popular General Emiliano 
 
 El sitio presenta las actividades académicas de la preparatoria con cuatro secciones principales: una página de **Inicio** con hero visual y bienvenida, el **Núcleo Académico** con los directores destacados y el cuerpo docente, **Ejes Formativos** con los pilares de Humanidades, Pensamiento Matemático y Ciencias Naturales, y el **Repositorio de Tesinas** con las tesinas de la generación 2026.
 
+El sitio está pensado **mobile-first**: en móvil usa una *bottom tab bar* fija con 4 destinos y acordeones colapsables en los ejes formativos; en desktop usa una pill flotante de navegación y muestra todo el contenido expandido.
+
 ---
 
 ## Objetivo del proyecto
@@ -62,11 +64,12 @@ CHAI/
 │   ├── components/
 |   │   ├── cards/
 │   │   │   ├── DocenteCard.tsx     ← Tarjeta individual de docente (React)
-│   │   │   ├── EjeFormativoCard.tsx ← Bloque visual de eje formativo (React)
+│   │   │   ├── EjeFormativoCard.tsx ← Bloque visual de eje formativo (React, con <details> en mobile)
 │   │   │   └── TesinaCard.tsx      ← Tarjeta individual de tesina (React)
 │   │   ├── layout/
-│   │   │   ├── Footer.astro        ← Pie de página con contacto y horarios
-│   │   │   └── Navbar.astro        ← Barra de navegación flotante
+│   │   │   ├── BottomTabBar.astro  ← Barra inferior fija (solo móvil) con 4 destinos
+│   │   │   ├── Footer.astro        ← Pie de página: contacto y horarios (compactos en móvil)
+│   │   │   └── Navbar.astro        ← Barra superior flotante (logos en móvil; links + CTA en desktop)
 │   │   └── ui/
 │   │       ├── PageHeader.tsx      ← Encabezado de páginas internas (React)
 │   │       └── button.tsx          ← Componente Button (shadcn/ui)
@@ -76,13 +79,13 @@ CHAI/
 │   │   ├── ejesFormativos.ts       ← Humanidades, Pensamiento Matemático y Ciencias Naturales
 │   │   └── tesinas.ts              ← 5 tesinas con foto, resumen y pdfUrl opcional
 │   ├── layouts/
-│   │   └── BaseLayout.astro        ← Layout base: <head> + Navbar + <main> + Footer
+│   │   └── BaseLayout.astro        ← Layout base: <head> + Navbar + <main> + Footer + BottomTabBar
 │   ├── lib/
 │   │   └── utils.ts                ← Utilidad cn() para merge de clases Tailwind
 │   ├── pages/
 │   │   ├── index.astro                 ← Página de Inicio (hero + lema + bienvenida + nav rápida)
-│   │   ├── nucleo-academico.astro      ← Director destacado + grid de docentes
-│   │   ├── ejes-formativos.astro       ← Ejes Formativos
+│   │   ├── nucleo-academico.astro      ← Directores destacados + grid de docentes
+│   │   ├── ejes-formativos.astro       ← Tres ejes + script para abrir <details> en desktop
 │   │   ├── repositorio-tesinas.astro   ← Tarjetas visuales de las 5 tesinas
 │   │   └── 404.astro                   ← Página de error 404
 │   ├── styles/
@@ -108,15 +111,18 @@ CHAI/
 ```
 astro.config.mjs (SSG, base: /CHAI)
     └── src/pages/*.astro              → Cada archivo = una ruta
-         └── BaseLayout.astro          → Envuelve con <head>, Navbar, Footer
-              ├── Navbar.astro         → Navegación fija, lee logos de site.ts
+         └── BaseLayout.astro          → Envuelve con <head>, Navbar, Footer y BottomTabBar
+              ├── Navbar.astro         → Header superior fijo (pill flotante en desktop)
               ├── <slot />             → Contenido específico de la página
-              └── Footer.astro         → Contacto, horarios, enlaces rápidos
+              ├── Footer.astro         → Contacto, horarios, enlaces rápidos
+              └── BottomTabBar.astro   → Tab bar inferior fijo (solo móvil)
 ```
 
 ### Renderizado
 
-Astro genera HTML estático en build time. Las páginas `.astro` importan datos desde `src/data/*.ts` y renderizan todo en el servidor. Los componentes React (`.tsx`) se usan para tarjetas y UI reutilizable, pero **no requieren JavaScript del lado del cliente** salvo el script del menú móvil en `Navbar.astro`.
+Astro genera HTML estático en build time. Las páginas `.astro` importan datos desde `src/data/*.ts` y renderizan todo en el servidor. Los componentes React (`.tsx`) se renderizan a HTML estático y **no envían JavaScript al cliente**.
+
+El sitio es casi 100% sin JS de cliente; solo hay un script inline al final de `src/pages/ejes-formativos.astro` que sincroniza el estado de los `<details>` colapsables (los abre y bloquea su cierre cuando el viewport es `md+`, y deja el comportamiento nativo en móvil).
 
 ### Datos y contenido
 
@@ -131,14 +137,24 @@ Todo el contenido editable vive en `src/data/`:
 
 ### Navegación
 
-La navbar tiene tres destinos fijos, definidos directamente en `Navbar.astro`:
+El sitio usa **dos patrones de navegación** según el viewport, ambos sincronizados a la misma ruta activa:
+
+**Desktop (`md+`) → `Navbar.astro`** — pill flotante centrada con tres links + un CTA rojo:
 
 - **Inicio** → `/CHAI/`
 - **Núcleo Académico** → `/CHAI/nucleo-academico`
 - **Ejes Formativos** → `/CHAI/ejes-formativos`
-- **Repositorio de Tesinas** → `/CHAI/repositorio-tesinas` (botón CTA rojo)
+- **Repositorio de Tesinas** → `/CHAI/repositorio-tesinas` (CTA destacado)
 
-La página activa se resalta mediante la función `isActive()` que compara `Astro.url.pathname`.
+En móvil la navbar se reduce a la pastilla con solo los logos institucionales (sin links ni hamburguesa).
+
+**Móvil (`< md`) → `BottomTabBar.astro`** — barra inferior fija con 4 tabs (íconos + label):
+
+- **Inicio** · **Núcleo** · **Ejes** · **Tesinas**
+
+La tab activa se resalta en rojo institucional. La barra respeta `env(safe-area-inset-bottom)` y `BaseLayout` añade `pb-16 md:pb-0` para que no tape el footer.
+
+La página activa se determina con la función `isActive()` (presente en ambos componentes) que compara `Astro.url.pathname` contra el `href` de cada destino.
 
 ### Sistema de diseño
 
@@ -162,9 +178,9 @@ Tailwind consume estas variables vía su configuración en `tailwind.config.ts`,
 
 Página principal con cuatro bloques:
 
-1. **Hero visual** — Imagen de fondo (`fondohero.jpeg`) con overlay oscuro al 60%, título grande con el nombre de la preparatoria (subtítulo opcional), y logos institucionales sobre pastilla blanca.
+1. **Hero visual** — Imagen de fondo (`fondohero.jpeg`) con overlay oscuro al 60%, título grande con el nombre de la preparatoria (subtítulo opcional vacío por defecto), y logos institucionales sobre pastilla blanca. Tipografía responsive: `text-3xl` en móvil hasta `text-7xl` en `xl`.
 2. **Lema institucional** — Blockquote con el lema sobre fondo azul (`primary`).
-3. **Bienvenida / Propósito** — Sección de texto con badge "Acerca del Proyecto". Contenido actualmente placeholder.
+3. **Bienvenida / Propósito** — Sección de texto con badge "Acerca del Proyecto" y texto institucional definitivo.
 4. **Navegación rápida** — Tres tarjetas-enlace: Núcleo Académico (fondo rojo), Ejes Formativos (fondo azul) y Repositorio de Tesinas (fondo negro).
 
 **Contenido editable:** `src/data/site.ts` → objetos `heroInicio`, `bienvenida`, `institucion`.
@@ -173,9 +189,11 @@ Página principal con cuatro bloques:
 
 **Archivo:** `src/pages/nucleo-academico.astro`
 
-Arriba aparecen los **directores destacados** lado a lado en un grid responsive (una columna en móvil, dos en desktop): cada uno con foto cuadrada grande dentro de un marco vanguardista (capa decorativa offset con gradiente institucional, *corner brackets* y cinta de acento que rompe el cuadro), su cargo en chip y su nombre. Debajo, grid responsive de tarjetas de docentes (1-4 columnas según breakpoint). Cada tarjeta (`DocenteCard.tsx`) muestra solo la foto y el nombre. Los docentes se ordenan alfabéticamente.
+Arriba aparecen los **directores destacados** lado a lado en un grid responsive (una columna en móvil, dos en desktop). Cada retrato lleva un marco cuadrado vanguardista: capa decorativa offset con gradiente rojo→azul institucional, foto con `rounded-sm` y sombra fuerte, *corner brackets* en esquinas opuestas y una cinta de acento que rompe el cuadro. En móvil el marco se simplifica (solo capa offset suave; brackets y cinta se ocultan) para reducir ruido visual.
 
-Actualmente hay 11 docentes con foto.
+Debajo, grid responsive de tarjetas de docentes (`DocenteCard.tsx`): **2 columnas en móvil, 3 en `md`, 4 en `lg`**. Cada tarjeta muestra solo la foto y el nombre. Los docentes se ordenan alfabéticamente; los slots con `pendiente: true` (sin foto) quedan al final.
+
+Actualmente hay 11 docentes con foto. No hay slots pendientes.
 
 **Contenido editable:**
 - Director General → `src/data/docentes.ts` → `directorGeneral`.
@@ -190,6 +208,8 @@ Actualmente hay 11 docentes con foto.
 
 Página institucional que presenta tres pilares académicos: **Humanidades** (acento rojo), **Pensamiento Matemático** (acento azul) y **Temas Selectos de Ciencias Naturales** (acento verde). Usa bloques visuales amplios con imagen destacada, definición, objetivo formativo, temas clave y capacidades cuando aplica.
 
+**Acordeón móvil**: dentro de cada eje, el bloque de "Capacidades que desarrolla" y cada uno de los temas se renderizan con `<details data-mobile-collapsible>`. En móvil quedan colapsados con un chevron rotatorio; en `md+` un script al final de la página los abre y bloquea el cierre por click, así desktop sigue mostrándolos como secciones siempre expandidas. La rotación del chevron y la supresión del marker nativo están en un bloque `<style is:global>` en la misma página.
+
 **Contenido editable:** `src/data/ejesFormativos.ts`.
 **Imágenes:** `public/assets/ejes-formativos/`.
 
@@ -201,11 +221,11 @@ Para agregar más ejes en el futuro, añade otro objeto al array `ejesFormativos
 
 **Archivo:** `src/pages/repositorio-tesinas.astro`
 
-Lista vertical de tarjetas visuales (`TesinaCard.tsx`). Cada tarjeta muestra imagen destacada, año, título, alumnos, resumen amplio y un botón "Abrir PDF" que lleva al documento en Google Drive en una pestaña nueva. Si la tesina no tiene `pdfUrl`, el botón aparece como "PDF próximamente" deshabilitado.
+Lista vertical de tarjetas visuales (`TesinaCard.tsx`). Cada tarjeta muestra imagen destacada, año, título, lista de autores, resumen amplio y un botón "Abrir PDF" que lleva al documento en Google Drive en una pestaña nueva. En móvil el CTA es full-width y sólido (rojo institucional); en desktop es un outline más discreto. Si una tesina no tiene `pdfUrl`, el botón aparece como "PDF próximamente" deshabilitado.
 
 Los archivos PDF NO se alojan en el sitio: viven exclusivamente en Google Drive. Cada link debe tener el permiso "Cualquier persona con el enlace puede ver".
 
-Actualmente hay **5 tesinas** integradas, todas con `pdfUrl` activo. Los autores siguen pendientes de confirmar.
+Actualmente hay **5 tesinas** integradas, todas con `pdfUrl` activo y la lista de autores reales tomada de las portadas de los PDFs.
 
 **Contenido editable:** `src/data/tesinas.ts` → array `tesinas`.
 **Imágenes:** `public/assets/tesinas/`.
@@ -215,6 +235,28 @@ Actualmente hay **5 tesinas** integradas, todas con `pdfUrl` activo. Los autores
 **Archivo:** `src/pages/404.astro`
 
 Página de error con mensaje "Página no encontrada" y enlace de regreso al inicio. No muestra footer (`noFooter={true}`).
+
+---
+
+## Diseño responsive
+
+El sitio está construido **mobile-first** con Tailwind. Patrón general: vista móvil compacta y minimalista por defecto; clases `md:` y superiores van añadiendo respiración, decoraciones y densidad.
+
+### Decisiones clave por viewport
+
+| Elemento | Móvil (`< md`) | Desktop (`md+`) |
+| --- | --- | --- |
+| **Navegación** | `BottomTabBar.astro` fijo abajo (4 tabs con íconos) + `Navbar.astro` reducido a logos arriba | `Navbar.astro` pill flotante con 3 links + CTA rojo; `BottomTabBar` oculto |
+| **Hero del Inicio** | `min-h-[70vh]`, título `text-3xl`, logos `h-12` | `min-h-[85vh]`, título hasta `text-7xl`, logos `h-20` |
+| **Directores** | Foto `w-56`, marco simple (solo capa offset suave) | Foto hasta `w-[24rem]`, marco completo (corner brackets + cinta) |
+| **Grid de docentes** | 2 columnas | 3 (`md`) o 4 (`lg`) columnas |
+| **Ejes formativos** | Capacidades y cada tema en `<details>` colapsado con chevron | `<details>` forzados abiertos vía script + chevron oculto |
+| **Tesinas — CTA** | Botón "Abrir PDF" full-width sólido rojo | Botón outline auto-width |
+| **Footer — horarios** | Resumen agrupado: "Lun–Vie: 7:30–3:30 · Sáb y Dom: cerrado" | Lista completa de los 7 días |
+
+### Padding inferior por el BottomTabBar
+
+`BaseLayout.astro` aplica `pb-16 md:pb-0` al wrapper para reservar espacio bajo el footer en móvil y evitar que el `BottomTabBar` (fijo) tape contenido. La barra además respeta `env(safe-area-inset-bottom)` para iPhone con notch.
 
 ---
 
@@ -294,7 +336,7 @@ Cada docente tiene esta estructura mínima:
 }
 ```
 
-Para reservar un slot pendiente (sin foto):
+Para reservar un slot mientras llega la foto/datos de un docente nuevo (queda al final de la grilla con un ícono placeholder):
 
 ```ts
 {
@@ -413,7 +455,7 @@ Si en el futuro hay que actualizar contenido (nuevas fotos, nuevas tesinas, nuev
 1. **Las fotos ya están integradas** en `public/assets/{directivos,docentes,tesinas}/` con nombres limpios para web; no tiene sentido duplicarlas con sus nombres originales (con espacios, mayúsculas y acentos).
 2. **Los PDFs no deben publicarse en el sitio**: los enlaces definitivos vivirán en Google Drive y se referenciarán vía `pdfUrl` en `src/data/tesinas.ts`. Commitearlos a `public/` haría crecer el repo innecesariamente.
 
-Si recibes nuevo material (foto del 10º maestro, PDFs actualizados, resúmenes corregidos, etc.), guárdalo en tu copia local de `Modificaciones/` como referencia, pero acuérdate de:
+Si recibes nuevo material (fotos de docentes adicionales, PDFs actualizados, resúmenes corregidos, etc.), guárdalo en tu copia local de `Modificaciones/` como referencia, pero acuérdate de:
 
 - Copiar las imágenes finales a `public/assets/...` con nombre web-friendly (kebab-case, sin acentos).
 - Subir los PDFs a Google Drive y poner el enlace en `pdfUrl` dentro de `src/data/tesinas.ts`.
@@ -509,15 +551,15 @@ El sitio se despliega automáticamente a **GitHub Pages** con cada push a la ram
 4. **No edites archivos dentro de `dist/`** — Se regenera completamente en cada build.
 5. **Mantén las rutas de assets sin "/" al inicio** — El prefijo `/CHAI/` se agrega automáticamente.
 6. **No dejes enlaces PDF rotos** — Si un PDF no está disponible, deja `pdfUrl` como `undefined` para que aparezca el botón "PDF próximamente".
-7. **Revisa el sitio en móvil** — La navbar tiene menú hamburguesa, verifica que la navegación funcione.
-8. **Si agregas nuevas secciones**, recuerda actualizar: la navbar, el footer (enlaces rápidos) y las tarjetas de navegación rápida en `index.astro`.
+7. **Revisa el sitio en móvil** — La navegación móvil usa el `BottomTabBar.astro` fijo abajo (no hay menú hamburguesa). Verifica que la tab activa se resalte correctamente en cada ruta.
+8. **Si agregas nuevas secciones**, recuerda actualizar: `Navbar.astro` (links desktop), `BottomTabBar.astro` (tabs móvil), `Footer.astro` (enlaces rápidos) y las tarjetas de navegación rápida en `index.astro`.
 
 ---
 
 ## Notas técnicas
 
 - El proyecto fue adaptado a partir de una base institucional previa (proyecto SADEY/Laboratorio de Construcción) y reformulado para la Preparatoria Popular General Emiliano Zapata.
-- Los componentes React (`DocenteCard`, `TesinaCard`, `PageHeader`, `Button`) se renderizan estáticamente en build time; no generan bundles de JavaScript del lado del cliente, salvo que se les agregue la directiva `client:*` de Astro.
-- El único JavaScript del lado del cliente es el toggle del menú móvil en `Navbar.astro` (script inline de ~5 líneas).
+- Los componentes React (`DocenteCard`, `TesinaCard`, `EjeFormativoCard`, `PageHeader`, `Button`) se renderizan estáticamente en build time; no generan bundles de JavaScript del lado del cliente, salvo que se les agregue la directiva `client:*` de Astro (no se usa actualmente).
+- El único JavaScript del lado del cliente es el script inline al final de `src/pages/ejes-formativos.astro` (~15 líneas) que sincroniza los `<details data-mobile-collapsible>`: los abre y bloquea su cierre cuando `matchMedia('(min-width: 768px)')` matches; en móvil deja el comportamiento nativo del `<details>`.
 - La configuración de `shadcn/ui` (`components.json`) está presente para facilitar la adición de nuevos componentes si fuera necesario, pero actualmente solo se usa el componente `Button`.
 - Existe un test de ejemplo (`src/test/example.test.ts`) que valida la infraestructura de testing, pero no hay tests funcionales del sitio.
